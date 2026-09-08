@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lowkey / journal</title>
+    <style>
+        :root {
+            --bg-main: #0b0d12;
+            --card-bg: #131720;
+            --card-border: #1e2430;
+            --input-bg: #181d28;
+            --text-main: #e1e7f0;
+            --text-muted: #626c7d;
+            --accent-blue: #3b82f6;
+            --accent-blue-hover: #2563eb;
+            --win-color: #10b981;
+            --loss-color: #ef4444;
+            --be-color: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Top Header & Tabs */
+        .header-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .header-title span {
+            color: var(--accent-blue);
+        }
+
+        .nav-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 4px;
+            border-radius: 8px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        /* Sections */
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .section-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .section-header {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--card-border);
+        }
+
+        /* Form Elements */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="datetime-local"],
+        select,
+        textarea {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+            width: 100%;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Button & Chips Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .chip-box {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        .chip-box.selected {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: white;
+        }
+
+        .sub-header {
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* Large Action Buttons */
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-blue-hover);
+        }
+
+        .btn-secondary {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--loss-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Displays */
+        .metric-display-box {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .metric-display-box .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .value-open { color: var(--be-color); }
+        .value-win { color: var(--win-color); }
+        .value-loss { color: var(--loss-color); }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-card .label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .stat-card .val {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* Grade Grid */
+        .grade-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .grade-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .grade-box .title {
+            font-size: 0.65rem;
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .grade-box .pct {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--loss-color);
+            margin: 2px 0;
+        }
+
+        .grade-box .sub {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        /* Calendar */
+        .calendar-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .day-name {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding-bottom: 4px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            background: var(--input-bg);
+            border-radius: 4px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            padding: 2px;
+        }
+
+        /* Trade Cards Log */
+        .trade-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+
+        .trade-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .trade-card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .badge-grade {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .badge-outcome {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .badge-outcome.LOSS { background: rgba(239, 68, 68, 0.2); color: var(--loss-color); }
+        .badge-outcome.WIN { background: rgba(16, 185, 129, 0.2); color: var(--win-color); }
+        .badge-outcome.BE { background: rgba(245, 158, 11, 0.2); color: var(--be-color); }
+
+        .trade-detail-row {
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .trade-detail-row strong {
+            color: var(--text-main);
+        }
+
+        .mistake-text {
+            color: var(--loss-color);
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(2px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-style: 1000;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 380px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header-title">lowkey <span>/ journal</span></div>
+
+    <!-- Navigation Switcher -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('setup')">1. Log Setup</button>
+        <button class="tab-btn" onclick="switchTab('journal')">2. Journal</button>
+    </div>
+
+    <!-- TAB 1: LOG SETUP -->
+    <div id="tab-setup" class="tab-content active">
+        
+        <!-- TRADE EXECUTION -->
+        <div class="section-box">
+            <div class="section-header">Trade Execution</div>
+
+            <div class="form-group">
+                <label>Date & Time</label>
+                <input type="datetime-local" id="tradeDateTime" onchange="autoDetectSession()">
+            </div>
+
+            <div class="form-group">
+                <label>Symbol</label>
+                <input type="text" id="tradeSymbol" value="EURUSD">
+            </div>
+
+            <div class="form-group">
+                <label>Direction</label>
+                <select id="tradeDirection">
+                    <option value="BUY">BUY</option>
+                    <option value="SELL">SELL</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Entry Price</label>
+                <input type="number" step="0.00001" id="entryPrice" placeholder="e.g. 1.08500" oninput="calculateRR()">
+            </div>
+
+            <div class="form-group">
+                <label>Stop Loss</label>
+                <input type="number" step="0.00001" id="stopLoss" placeholder="e.g. 1.08300" oninput="calculateRR()">
+            </div>
+
+            <div class="form-group">
+                <label>Take Profit</label>
+                <input type="number" step="0.00001" id="takeProfit" placeholder="e.g. 1.09000" oninput="calculateRR()">
+            </div>
+
+            <div class="form-group">
+                <label>Final Exit Price (Leave blank if trade is still Open)</label>
+                <input type="number" step="0.00001" id="finalExitPrice" placeholder="e.g. 1.09000" oninput="calculateRR()">
+            </div>
+
+            <label class="checkbox-label">
+                <input type="checkbox" id="closeBE" onchange="calculateRR()"> Closed Remaining Position at Break Even (BE)
+            </label>
+
+            <!-- Partials Section -->
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label>Partials Taken</label>
+                    <button type="button" class="btn-secondary" style="padding: 4px 8px; font-size: 0.7rem;" onclick="addPartialInput()">+ Add Partial</button>
+                </div>
+                <div id="partialsContainer" style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;"></div>
+            </div>
+
+            <!-- Calculated Displays -->
+            <div class="metric-display-box">
+                <label>Planned R:R</label>
+                <div class="value" id="displayPlannedRR">-</div>
+            </div>
+
+            <div class="metric-display-box">
+                <label>Realized R:R / Outcome</label>
+                <div class="value value-open" id="displayRealizedOutcome">OPEN</div>
+            </div>
+
+            <button class="btn-primary" onclick="saveTrade()">Save Setup</button>
+        </div>
+
+        <!-- ICT CONTEXT METRICS -->
+        <div class="section-box">
+            <div class="section-header">ICT Context Metrics</div>
+
+            <div class="form-group">
+                <label>Setup Grade Rating</label>
+                <select id="setupGrade">
+                    <option value="">Select Grade Rating...</option>
+                    <option value="Grade A">Grade A</option>
+                    <option value="Grade B">Grade B</option>
+                    <option value="Grade C">Grade C</option>
+                    <option value="Grade D">Grade D</option>
+                    <option value="Grade E">Grade E</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>HTF Bias</label>
+                <select id="htfBias">
+                    <option value="-">-</option>
+                    <option value="Bullish">Bullish</option>
+                    <option value="Bearish">Bearish</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Killzone / Session (Auto-Detected)</label>
+                <select id="tradeSession">
+                    <option value="Off-Hours">Off-Hours</option>
+                    <option value="London Open KZ">London Open KZ</option>
+                    <option value="London Session">London Session</option>
+                    <option value="NY AM KZ">NY AM KZ</option>
+                    <option value="NY PM KZ">NY PM KZ</option>
+                    <option value="Asian Session">Asian Session</option>
+                </select>
+            </div>
+
+            <!-- Multi-Timeframe POIs -->
+            <div class="form-group">
+                <label>Setup POI (Select Active Arrays)</label>
+                
+                <div class="sub-header">4-HOUR (4H)</div>
+                <div class="grid-2">
+                    <div class="chip-box" onclick="toggleChip(this, '4H FVG')">FVG</div>
+                    <div class="chip-box" onclick="toggleChip(this, '4H OB')">OB</div>
+                </div>
+
+                <div class="sub-header">1-HOUR (1H)</div>
+                <div class="grid-2">
+                    <div class="chip-box" onclick="toggleChip(this, '1H FVG')">FVG</div>
+                    <div class="chip-box" onclick="toggleChip(this, '1H OB')">OB</div>
+                </div>
+
+                <div class="sub-header">15-MIN (15M)</div>
+                <div class="grid-2">
+                    <div class="chip-box" onclick="toggleChip(this, '15M FVG')">FVG</div>
+                    <div class="chip-box" onclick="toggleChip(this, '15M OB')">OB</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Draw on Liquidity (DOL)</label>
+                <input type="text" id="tradeDOL" placeholder="e.g. BSL, SSL, PDH, PDL, FVG Target">
+            </div>
+
+            <!-- Execution Mistakes (UPDATED: Removed No Clear Bias & Early BE) -->
+            <div class="form-group">
+                <label>Execution & Strategy Mistakes</label>
+                <div class="grid-2" style="margin-top: 4px;">
+                    <div class="chip-box" onclick="toggleChip(this, 'Weak MSS')">Weak MSS</div>
+                    <div class="chip-box" onclick="toggleChip(this, 'Forced Entry')">Forced</div>
+                    <div class="chip-box" onclick="toggleChip(this, 'FOMO')">FOMO</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>TradingView Link</label>
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" id="tvLink" placeholder="https://www.tradingview.com/x">
+                    <button class="btn-secondary" style="width: auto;">Embed</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Detailed Notes & Feedback</label>
+                <textarea id="tradeNotes" rows="3" placeholder="Execution thoughts, market conditions..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: JOURNAL VIEW -->
+    <div id="tab-journal" class="tab-content">
+        
+        <!-- Filters Header -->
+        <div class="grid-2">
+            <select id="filterRange">
+                <option value="All Time">All Time</option>
+            </select>
+            <select id="filterYear">
+                <option value="2026">2026</option>
+            </select>
+        </div>
+
+        <!-- Metric Cards Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Trades</div>
+                <div class="val" id="statTotalTrades">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Net RR</div>
+                <div class="val" id="statNetRR" style="color: var(--loss-color);">0.00R</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Win Rate</div>
+                <div class="val" id="statWinRate" style="color: var(--accent-blue);">0.0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Profit Factor</div>
+                <div class="val" id="statProfitFactor">0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Days Traded</div>
+                <div class="val" id="statDaysTraded">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Top Session</div>
+                <div class="val" id="statTopSession" style="font-size: 0.85rem;">-</div>
+            </div>
+        </div>
+
+        <!-- Grade Performance Section -->
+        <div class="section-box">
+            <div class="section-header">Setup Grade Performance</div>
+            <div class="grade-grid" id="gradeGrid">
+                <!-- Calculated dynamically -->
+            </div>
+        </div>
+
+        <!-- Calendar Component -->
+        <div class="calendar-card">
+            <div class="calendar-header">
+                <button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">&larr; Prev</button>
+                <div style="font-size: 0.85rem; font-weight: 700;">September 2026</div>
+                <button class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Next &rarr;</button>
+            </div>
+            <div class="calendar-grid">
+                <div class="day-name">SUN</div><div class="day-name">MON</div><div class="day-name">TUE</div>
+                <div class="day-name">WED</div><div class="day-name">THU</div><div class="day-name">FRI</div><div class="day-name">SAT</div>
+                
+                <!-- Placeholder Calendar Days -->
+                <div class="day-cell"></div><div class="day-cell"></div><div class="day-cell">1</div>
+                <div class="day-cell">2</div><div class="day-cell">3</div><div class="day-cell">4</div><div class="day-cell">5</div>
+                <div class="day-cell">6</div><div class="day-cell">7</div><div class="day-cell">8</div>
+                <div class="day-cell">9</div><div class="day-cell">10</div><div class="day-cell">11</div><div class="day-cell">12</div>
+            </div>
+        </div>
+
+        <!-- Action Row -->
+        <div class="grid-2">
+            <button class="btn-secondary" onclick="openExportModal()">Export CSV</button>
+            <button class="btn-secondary" onclick="renderJournal()">Reset Date Filter</button>
+        </div>
+        <button class="btn-danger" onclick="clearAllRecords()">Clear Records</button>
+
+        <!-- Trade Feed / List -->
+        <div id="tradeListContainer" style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Trade cards injected here -->
+        </div>
+    </div>
+</div>
+
+<!-- EXPORT CSV MODAL -->
+<div class="modal-overlay" id="exportModal">
+    <div class="modal-card">
+        <div class="section-header">Export CSV Data</div>
+        <div class="form-group">
+            <label>Export Selection Mode</label>
+            <select id="exportMode">
+                <option value="all">All Time Trades</option>
+                <option value="filtered">Current Journal View Filter</option>
+            </select>
+        </div>
+        <button class="btn-primary" onclick="downloadCSV()">Download CSV</button>
+        <button class="btn-secondary" onclick="closeExportModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    let trades = JSON.parse(localStorage.getItem('lowkey_journal_trades') || '[]');
+    let selectedChips = new Set();
+    let partialCount = 0;
+
+    // Initialize Default Date/Time
+    document.addEventListener('DOMContentLoaded', () => {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('tradeDateTime').value = now.toISOString().slice(0, 16);
+        autoDetectSession();
+        renderJournal();
+    });
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        if (tab === 'setup') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('tab-setup').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('tab-journal').classList.add('active');
+            renderJournal();
+        }
+    }
+
+    function toggleChip(element, value) {
+        element.classList.toggle('selected');
+        if (selectedChips.has(value)) {
+            selectedChips.delete(value);
+        } else {
+            selectedChips.add(value);
+        }
+    }
+
+    function addPartialInput() {
+        partialCount++;
+        const container = document.getElementById('partialsContainer');
+        const div = document.createElement('div');
+        div.className = 'grid-2';
+        div.id = `partial-row-${partialCount}`;
+        div.innerHTML = `
+            <input type="number" placeholder="Pct %" class="partial-pct" oninput="calculateRR()">
+            <input type="number" step="0.00001" placeholder="Exit Price" class="partial-price" oninput="calculateRR()">
+        `;
+        container.appendChild(div);
+    }
+
+    function autoDetectSession() {
+        const dtVal = document.getElementById('tradeDateTime').value;
+        if (!dtVal) return;
+        const date = new Date(dtVal);
+        const hours = date.getUTCHours();
+
+        let session = "Off-Hours";
+        if (hours >= 7 && hours < 10) session = "London Open KZ";
+        else if (hours >= 10 && hours < 12) session = "London Session";
+        else if (hours >= 12 && hours < 15) session = "NY AM KZ";
+        else if (hours >= 15 && hours < 17) session = "NY PM KZ";
+        else if (hours >= 0 && hours < 6) session = "Asian Session";
+
+        document.getElementById('tradeSession').value = session;
+    }
+
+    function calculateRR() {
+        const entry = parseFloat(document.getElementById('entryPrice').value);
+        const sl = parseFloat(document.getElementById('stopLoss').value);
+        const tp = parseFloat(document.getElementById('takeProfit').value);
+        const exit = parseFloat(document.getElementById('finalExitPrice').value);
+        const isBE = document.getElementById('closeBE').checked;
+        const dir = document.getElementById('tradeDirection').value;
+
+        if (!entry || !sl) {
+            document.getElementById('displayPlannedRR').innerText = '-';
+            document.getElementById('displayRealizedOutcome').innerText = 'OPEN';
+            document.getElementById('displayRealizedOutcome').className = 'value value-open';
+            return { plannedRR: 0, realizedRR: 0, outcome: 'OPEN' };
+        }
+
+        const riskPips = Math.abs(entry - sl);
+
+        // Planned RR Calculation
+        let plannedRR = 0;
+        if (tp) {
+            const rewardPips = Math.abs(tp - entry);
+            plannedRR = riskPips > 0 ? (rewardPips / riskPips).toFixed(2) : 0;
+            document.getElementById('displayPlannedRR').innerText = `1:${plannedRR}`;
+        }
+
+        // Realized RR Calculation
+        if (!exit && !isBE) {
+            document.getElementById('displayRealizedOutcome').innerText = 'OPEN';
+            document.getElementById('displayRealizedOutcome').className = 'value value-open';
+            return { plannedRR, realizedRR: 0, outcome: 'OPEN' };
+        }
+
+        let realizedRR = 0;
+
+        if (isBE) {
+            realizedRR = 0.00;
+        } else if (exit) {
+            const diff = dir === 'BUY' ? (exit - entry) : (entry - exit);
+            realizedRR = riskPips > 0 ? (diff / riskPips) : 0;
+        }
+
+        let outcome = "BE";
+        let colorClass = "value-open";
+
+        if (realizedRR > 0.05) {
+            outcome = "WIN";
+            colorClass = "value-win";
+        } else if (realizedRR < -0.05) {
+            outcome = "LOSS";
+            colorClass = "value-loss";
+        }
+
+        const formattedR = parseFloat(realizedRR.toFixed(2));
+        document.getElementById('displayRealizedOutcome').innerText = `${formattedR > 0 ? '+' : ''}${formattedR}R (${outcome})`;
+        document.getElementById('displayRealizedOutcome').className = `value ${colorClass}`;
+
+        return { plannedRR, realizedRR: formattedR, outcome };
+    }
+
+    function saveTrade() {
+        const { plannedRR, realizedRR, outcome } = calculateRR();
+
+        const trade = {
+            id: Date.now(),
+            dateTime: document.getElementById('tradeDateTime').value,
+            symbol: document.getElementById('tradeSymbol').value,
+            direction: document.getElementById('tradeDirection').value,
+            entryPrice: document.getElementById('entryPrice').value,
+            stopLoss: document.getElementById('stopLoss').value,
+            takeProfit: document.getElementById('takeProfit').value,
+            exitPrice: document.getElementById('finalExitPrice').value,
+            plannedRR: plannedRR,
+            realizedRR: realizedRR,
+            outcome: outcome,
+            grade: document.getElementById('setupGrade').value || 'Ungraded',
+            htfBias: document.getElementById('htfBias').value,
+            session: document.getElementById('tradeSession').value,
+            pois: Array.from(selectedChips).filter(c => c.includes('FVG') || c.includes('OB')),
+            mistakes: Array.from(selectedChips).filter(c => ['Weak MSS', 'Forced Entry', 'FOMO'].includes(c)),
+            dol: document.getElementById('tradeDOL').value || '-',
+            notes: document.getElementById('tradeNotes').value || '-'
+        };
+
+        trades.unshift(trade);
+        localStorage.setItem('lowkey_journal_trades', JSON.stringify(trades));
+        alert('Setup saved successfully!');
+        switchTab('journal');
+    }
+
+    function renderJournal() {
+        const container = document.getElementById('tradeListContainer');
+        container.innerHTML = '';
+
+        let totalR = 0;
+        let wins = 0;
+        let losses = 0;
+        const gradeStats = { 'Grade A': { count: 0, r: 0 }, 'Grade B': { count: 0, r: 0 }, 'Grade C': { count: 0, r: 0 }, 'Grade D': { count: 0, r: 0 }, 'Grade E': { count: 0, r: 0 } };
+
+        trades.forEach(t => {
+            totalR += t.realizedRR;
+            if (t.outcome === 'WIN') wins++;
+            if (t.outcome === 'LOSS') losses++;
+
+            if (gradeStats[t.grade]) {
+                gradeStats[t.grade].count++;
+                gradeStats[t.grade].r += t.realizedRR;
+            }
+
+            // Append Card Markup
+            const card = document.createElement('div');
+            card.className = 'trade-card';
+            card.innerHTML = `
+                <div class="trade-card-header">
+                    <div>
+                        <span class="trade-card-title">${t.symbol} — ${t.direction}</span>
+                        <span class="badge-grade">${t.grade}</span>
+                    </div>
+                    <span class="badge-outcome ${t.outcome}">${t.outcome}</span>
+                </div>
+                <div class="trade-detail-row">
+                    <strong>Date:</strong> ${t.dateTime.replace('T', ', ')} | <strong>Planned R:R:</strong> 1:${t.plannedRR} | <strong>Realized R:R:</strong> ${t.realizedRR >= 0 ? '+' : ''}${t.realizedRR}R
+                </div>
+                <div class="trade-detail-row">
+                    <strong>Entry:</strong> ${t.entryPrice || '-'} | <strong>SL:</strong> ${t.stopLoss || '-'} | <strong>TP:</strong> ${t.takeProfit || '-'} | <strong>Final Exit:</strong> ${t.exitPrice || '-'}
+                </div>
+                <div class="trade-detail-row">
+                    <strong>POI Arrays:</strong> ${t.pois.length > 0 ? t.pois.join(', ') : 'None'}
+                </div>
+                <div class="trade-detail-row">
+                    <strong>Bias:</strong> ${t.htfBias} | <strong>Killzone / Session:</strong> ${t.session}
+                </div>
+                <div class="trade-detail-row">
+                    <strong>DOL Target:</strong> ${t.dol}
+                </div>
+                <div class="trade-detail-row">
+                    <strong>Mistakes Made:</strong> ${t.mistakes.length > 0 ? `<span class="mistake-text">${t.mistakes.join(', ')}</span>` : 'None'}
+                </div>
+                <div class="trade-detail-row">
+                    <strong>Notes:</strong> ${t.notes}
+                </div>
+                <div class="grid-2" style="margin-top: 8px;">
+                    <button class="btn-secondary" style="padding: 6px;">Edit Entry</button>
+                    <button class="btn-danger" style="padding: 6px;" onclick="deleteTrade(${t.id})">Delete</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // Top Statistics Update
+        document.getElementById('statTotalTrades').innerText = trades.length;
+        document.getElementById('statNetRR').innerText = `${totalR.toFixed(2)}R`;
+        document.getElementById('statWinRate').innerText = trades.length > 0 ? `${((wins / trades.length) * 100).toFixed(1)}%` : '0.0%';
+
+        // Setup Grade Performance Breakdown Render
+        const gradeGrid = document.getElementById('gradeGrid');
+        gradeGrid.innerHTML = '';
+        Object.keys(gradeStats).forEach(g => {
+            const pct = trades.length > 0 ? ((gradeStats[g].count / trades.length) * 100).toFixed(0) : 0;
+            gradeGrid.innerHTML += `
+                <div class="grade-box">
+                    <div class="title">${g.toUpperCase()}</div>
+                    <div class="pct">${pct}%</div>
+                    <div class="sub">${gradeStats[g].count} trades (${gradeStats[g].r.toFixed(1)}R)</div>
+                </div>
+            `;
+        });
+    }
+
+    function deleteTrade(id) {
+        if (confirm('Delete this trade entry?')) {
+            trades = trades.filter(t => t.id !== id);
+            localStorage.setItem('lowkey_journal_trades', JSON.stringify(trades));
+            renderJournal();
+        }
+    }
+
+    function clearAllRecords() {
+        if (confirm('Are you sure you want to clear all trade records? This cannot be undone.')) {
+            trades = [];
+            localStorage.removeItem('lowkey_journal_trades');
+            renderJournal();
+        }
+    }
+
+    function openExportModal() {
+        document.getElementById('exportModal').style.display = 'flex';
+    }
+
+    function closeExportModal() {
+        document.getElementById('exportModal').style.display = 'none';
+    }
+
+    function downloadCSV() {
+        if (trades.length === 0) return alert('No trades to export.');
+
+        const headers = ['DateTime', 'Symbol', 'Direction', 'Entry', 'SL', 'TP', 'Exit', 'PlannedRR', 'RealizedRR', 'Outcome', 'Grade', 'Bias', 'Session', 'POIs', 'Mistakes', 'DOL', 'Notes'];
+        const rows = trades.map(t => [
+            t.dateTime, t.symbol, t.direction, t.entryPrice, t.stopLoss, t.takeProfit, t.exitPrice,
+            t.plannedRR, t.realizedRR, t.outcome, t.grade, t.htfBias, t.session,
+            `"${t.pois.join(', ')}"`, `"${t.mistakes.join(', ')}"`, `"${t.dol}"`, `"${t.notes}"`
+        ]);
+
+        const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', 'lowkey_journal_export.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        closeExportModal();
+    }
+</script>
+</body>
+</html>
