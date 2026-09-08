@@ -2,3924 +2,1037 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0d0e12">
-<title>LOWKEY JOURNAL</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Trade Journal V1</title>
 
 <style>
-:root {
-  --bg-main: #090a0f;
-  --bg-card: #12151e;
-  --bg-input: #181c27;
-  --border: rgba(255,255,255,.08);
-  --border-focus: #3b82f6;
-  --accent: #3b82f6;
-  --accent-glow: rgba(59,130,246,.2);
-  --green: #10b981;
-  --red: #ef4444;
-  --amber: #f59e0b;
-  --purple: #8b5cf6;
-  --text-main: #f3f4f6;
-  --text-muted: #9ca3af;
-  --font-sans: 'Inter',sans-serif;
-  --font-mono: 'JetBrains Mono',monospace;
-}
-
-* {
-  box-sizing:border-box;
+*{box-sizing:border-box}
+body{
   margin:0;
-  padding:0;
-  font-family:var(--font-sans);
-}
-
-html,body {
-  width:100%;
-  overflow-x:hidden;
-}
-
-body {
-  background:var(--bg-main);
-  color:var(--text-main);
-  padding-bottom:60px;
-  min-height:100vh;
-}
-
-/* NAVBAR */
-header {
-  background:rgba(18,21,30,.85);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:100;
-  padding:12px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.brand {
-  font-family:var(--font-mono);
-  font-weight:700;
-  font-size:15px;
-  letter-spacing:1px;
-  color:var(--text-main);
-}
-
-.brand span {
-  color:var(--accent);
-}
-
-.nav-tabs {
-  display:flex;
-  gap:6px;
-  background:var(--bg-input);
-  padding:4px;
-  border-radius:10px;
-  border:1px solid var(--border);
-}
-
-.tab-btn {
-  background:transparent;
-  color:var(--text-muted);
-  border:0;
-  padding:8px 16px;
-  font-size:12px;
-  font-weight:600;
-  border-radius:6px;
-  cursor:pointer;
-  transition:all .2s ease;
-  font-family:var(--font-mono);
-}
-
-.tab-btn.active {
-  background:var(--bg-card);
-  color:var(--text-main);
-  border:1px solid var(--border);
-  box-shadow:0 0 10px var(--accent-glow);
-}
-
-main {
-  width:100%;
-  max-width:920px;
-  margin:20px auto;
-  padding:0 12px;
-}
-
-.tab-content {
-  display:none;
-  width:100%;
-}
-
-.tab-content.active {
-  display:block;
-}
-
-/* CONTAINERS */
-.panel {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 4px 24px rgba(0,0,0,.5);
-}
-
-.panel-title {
-  font-family:var(--font-mono);
-  font-size:11px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
-  color:var(--text-muted);
-  margin-bottom:16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.panel-title::after {
-  content:"";
-  flex:1;
-  height:1px;
-  background:var(--border);
-}
-
-/* FORMS */
-.form-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
-  width:100%;
-}
-
-.full {
-  grid-column:1/-1;
-}
-
-label {
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  font-size:11px;
-  color:var(--text-muted);
-  font-weight:600;
-  letter-spacing:.5px;
-}
-
-input,select,textarea {
-  width:100%;
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  color:var(--text-main);
-  border-radius:8px;
-  padding:10px 12px;
-  font-size:13px;
-  font-family:var(--font-mono);
-  outline:none;
-  transition:all .2s ease;
-}
-
-input:focus,select:focus,textarea:focus {
-  border-color:var(--accent);
-  box-shadow:0 0 10px var(--accent-glow);
-}
-
-/* POI */
-.poi-group {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:10px;
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-}
-
-.poi-tf-box {
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.poi-tf-title {
-  font-family:var(--font-mono);
-  font-size:10px;
-  font-weight:700;
-  color:var(--accent);
-}
-
-.poi-chips {
-  display:flex;
-  gap:6px;
-}
-
-.poi-chip {
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:6px;
-  font-size:11px;
-  font-family:var(--font-mono);
-  cursor:pointer;
-  transition:all .2s;
-  user-select:none;
-}
-
-.poi-chip input {
-  display:none;
-}
-
-.poi-chip.active {
-  background:rgba(59,130,246,.2);
-  border-color:var(--accent);
-  color:#fff;
-  font-weight:bold;
-}
-
-/* FILTERS */
-.filter-bar {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  align-items:center;
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:16px;
-}
-
-.filter-group {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex:1;
-  min-width:200px;
-}
-
-.filter-group label {
-  font-size:10px;
-  font-family:var(--font-mono);
-  white-space:nowrap;
-  color:var(--accent);
-}
-
-.filter-inputs {
-  display:flex;
-  gap:6px;
-  width:100%;
-}
-
-.filter-inputs input,
-.filter-inputs select {
-  padding:6px 10px;
-  font-size:11px;
-}
-
-/* PARTIALS */
-.partials-box {
-  background:var(--bg-input);
-  border:1px dashed var(--border);
-  border-radius:10px;
-  padding:12px;
-  margin-top:4px;
-}
-
-.partials-header {
-  font-family:var(--font-mono);
-  font-size:11px;
-  color:var(--accent);
-  margin-bottom:8px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.partial-row {
-  display:flex;
-  gap:6px;
-  margin-bottom:8px;
-  align-items:center;
-}
-
-.partial-row input {
-  padding:8px;
-  font-size:12px;
-}
-
-.btn-sm {
-  padding:6px 10px;
-  font-size:10px;
-  border-radius:6px;
-  cursor:pointer;
-  font-family:var(--font-mono);
-}
-
-/* MISTAKE CHIPS */
-.chip-grid {
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:8px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:6px;
-  max-height:150px;
-  overflow-y:auto;
-}
-
-.chip {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:11px;
-  color:var(--text-main);
-  cursor:pointer;
-  padding:6px 8px;
-  border-radius:6px;
-  background:rgba(255,255,255,.02);
-  border:1px solid transparent;
-}
-
-.chip:hover {
-  border-color:var(--border);
-}
-
-.chip input[type="checkbox"] {
-  width:14px;
-  height:14px;
-  accent-color:var(--accent);
-}
-
-/* GRADE */
-.grade-popout {
-  display:none;
-  background:var(--bg-input);
-  border:1px solid var(--accent);
-  border-radius:8px;
-  padding:10px 12px;
-  margin-top:6px;
-  font-family:var(--font-mono);
-  font-size:11px;
-  color:var(--text-main);
-}
-
-.grade-popout.active {
-  display:block;
-}
-
-.grade-popout header {
-  background:transparent;
-  padding:0 0 6px 0;
-  border-bottom:1px dashed var(--border);
-  font-weight:700;
-  color:var(--accent);
-  margin-bottom:6px;
-}
-
-.grade-checklist {
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
-
-.chk-item {
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:var(--text-muted);
-}
-
-.chk-item span {
-  color:var(--green);
-  font-weight:bold;
-}
-
-.toggle-chip {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-top:6px;
-  font-size:11px;
-  color:var(--accent);
-  cursor:pointer;
-}
-
-.toggle-chip input {
-  width:14px;
-  height:14px;
-  accent-color:var(--accent);
-}
-
-/* METRICS */
-.metric-row {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin:14px 0;
-}
-
-.metric-card {
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:14px;
-  text-align:center;
-}
-
-.metric-card p {
-  font-size:9.5px;
-  font-family:var(--font-mono);
-  color:var(--text-muted);
-  margin-bottom:4px;
-}
-
-.metric-card h2 {
-  font-size:20px;
-  font-family:var(--font-mono);
-  font-weight:700;
-  color:var(--text-main);
-}
-
-.journal-stats {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.stat-box {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-  text-align:center;
-}
-
-.stat-box span {
-  font-size:8.5px;
-  font-family:var(--font-mono);
-  color:var(--text-muted);
-  display:block;
-  margin-bottom:4px;
-  text-transform:uppercase;
-}
-
-.stat-box h3 {
-  font-size:15px;
-  font-family:var(--font-mono);
-  font-weight:600;
-}
-
-/* GRADE CARDS */
-.grade-cards-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-  gap:10px;
-  margin-bottom:18px;
-}
-
-.grade-card {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:12px;
-  text-align:center;
-}
-
-.grade-card .grade-badge {
-  font-family:var(--font-mono);
-  font-size:10px;
-  font-weight:700;
-  color:var(--accent);
-  margin-bottom:4px;
-}
-
-.grade-card .grade-val {
-  font-size:14px;
-  font-family:var(--font-mono);
-  font-weight:600;
-}
-
-.grade-card .grade-sub {
-  font-size:9px;
-  font-family:var(--font-mono);
-  color:var(--text-muted);
-  margin-top:2px;
-}
-
-/* CALENDAR */
-.calendar-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-  font-family:var(--font-mono);
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.calendar-controls {
-  display:flex;
-  gap:6px;
-  align-items:center;
-}
-
-.calendar-controls select {
-  padding:4px 8px;
-  font-size:11px;
-}
-
-.cal-nav-btn {
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  color:var(--text-main);
-  padding:6px 12px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:11px;
-}
-
-.calendar-grid {
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:5px;
-}
-
-.cal-day-label {
-  text-align:center;
-  font-size:9px;
-  font-family:var(--font-mono);
-  color:var(--text-muted);
-  padding-bottom:4px;
-  font-weight:600;
-}
-
-.cal-day {
-  background:var(--bg-input);
-  border:1px solid var(--border);
-  border-radius:8px;
-  min-height:56px;
-  padding:6px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  cursor:pointer;
-  transition:all .2s ease;
-}
-
-.cal-day:hover {
-  border-color:var(--accent);
-  transform:translateY(-1px);
-}
-
-.cal-day.empty {
-  background:transparent;
-  border:0;
-  cursor:default;
-}
-
-.cal-day-num {
-  font-size:9px;
-  font-family:var(--font-mono);
-  color:var(--text-muted);
-}
-
-.cal-day-info {
-  text-align:right;
-  font-family:var(--font-mono);
-  font-size:9px;
-  line-height:1.1;
-}
-
-.cal-day-pnl {
-  font-weight:600;
-}
-
-.cal-day-pnl.pos {
-  color:var(--green);
-}
-
-.cal-day-pnl.neg {
-  color:var(--red);
-}
-
-.cal-day-pnl.zero {
-  color:var(--amber);
-}
-
-/* BUTTONS */
-.btn-group {
-  display:flex;
-  gap:8px;
-  margin-top:10px;
-  flex-wrap:wrap;
-  width:100%;
-}
-
-.btn {
-  border:0;
-  border-radius:8px;
-  padding:10px 14px;
-  font-size:11px;
-  font-family:var(--font-mono);
-  font-weight:600;
-  cursor:pointer;
-  transition:all .2s;
-  flex:1;
-  text-align:center;
-}
-
-.btn-primary {
-  background:var(--accent);
-  color:#fff;
-}
-
-.btn-primary:hover {
-  opacity:.9;
-}
-
-.btn-secondary {
-  background:var(--bg-input);
-  color:var(--text-main);
-  border:1px solid var(--border);
-}
-
-.btn-secondary:hover {
-  background:rgba(255,255,255,.05);
-}
-
-.btn-danger {
-  background:rgba(239,68,68,.12);
-  color:var(--red);
-  border:1px solid var(--red);
-}
-
-/* FEED */
-.trade-feed {
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  width:100%;
-}
-
-.feed-card {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:12px;
+  font-family:Arial,sans-serif;
+  background:#080b10;
+  color:#f1f5f9;
+}
+.app{max-width:650px;margin:auto;padding:16px}
+.header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:18px
+}
+.logo{font-size:22px;font-weight:800}
+.logo span{color:#38bdf8}
+.sub{font-size:11px;color:#64748b}
+
+.tabs{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:#11161e;border:1px solid #1e293b;
+  border-radius:12px;padding:4px;margin-bottom:16px
+}
+.tab{
+  border:0;background:transparent;color:#64748b;
+  padding:11px;border-radius:9px;font-weight:700;
+  cursor:pointer
+}
+.tab.active{background:#1e293b;color:#fff}
+
+.card{
+  background:#0e131a;
+  border:1px solid #1e293b;
+  border-radius:15px;
   padding:16px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  width:100%;
+  margin-bottom:14px
+}
+.section-title{
+  font-size:14px;font-weight:800;margin-bottom:14px
+}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px
+}
+.full{grid-column:1/-1}
+
+label{
+  display:block;font-size:11px;
+  color:#94a3b8;margin-bottom:6px
+}
+input,select,textarea{
+  width:100%;background:#080b10;
+  border:1px solid #263241;color:#fff;
+  border-radius:9px;padding:11px;
+  outline:none;font-size:13px
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#38bdf8
+}
+textarea{resize:vertical;min-height:75px}
+
+.sessions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px
+}
+.session{
+  position:relative
+}
+.session input{display:none}
+.session label{
+  margin:0;padding:11px 8px;
+  text-align:center;border:1px solid #263241;
+  border-radius:9px;background:#080b10;
+  cursor:pointer;font-size:11px;color:#94a3b8
+}
+.session input:checked+label{
+  border-color:#38bdf8;
+  background:#102332;color:#38bdf8
 }
 
-.feed-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-family:var(--font-mono);
-  font-size:12px;
+.direction{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px
+}
+.direction input{display:none}
+.direction label{
+  text-align:center;padding:11px;
+  border:1px solid #263241;border-radius:9px;
+  cursor:pointer;margin:0
+}
+.direction input:checked+label{
+  border-color:#38bdf8;background:#102332;color:#38bdf8
 }
 
-.badge {
-  padding:3px 8px;
-  border-radius:4px;
-  font-size:9px;
-  font-weight:700;
-  font-family:var(--font-mono);
+.btn{
+  width:100%;border:0;border-radius:10px;
+  padding:12px;font-weight:800;cursor:pointer;
+  background:#38bdf8;color:#031018
+}
+.btn.secondary{
+  background:#17202b;color:#cbd5e1;
+  border:1px solid #263241
+}
+.btn.danger{
+  background:#3b1519;color:#fca5a5;
+  border:1px solid #642126
+}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.hidden{display:none!important}
+
+.metrics{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:8px
+}
+.metric{
+  background:#080b10;border:1px solid #1e293b;
+  padding:12px;border-radius:10px
+}
+.metric small{display:block;color:#64748b;font-size:10px}
+.metric strong{font-size:18px;margin-top:4px;display:block}
+
+.trade{
+  background:#0b1016;border:1px solid #1e293b;
+  border-radius:12px;padding:13px;margin-bottom:9px
+}
+.trade-top{
+  display:flex;justify-content:space-between;gap:8px;
+  align-items:center
+}
+.trade-symbol{font-weight:800}
+.win{color:#4ade80}
+.loss{color:#f87171}
+.breakeven{color:#facc15}
+.trade-meta{
+  color:#64748b;font-size:10px;margin-top:6px;
+  line-height:1.7
+}
+.trade-actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px
+}
+.trade-actions button{
+  padding:8px;border-radius:8px;border:1px solid #263241;
+  background:#111821;color:#cbd5e1;font-size:11px;
+  font-weight:700
 }
 
-.badge-WIN {
-  background:rgba(16,185,129,.2);
-  color:var(--green);
+.empty{
+  text-align:center;color:#64748b;
+  padding:35px 10px;font-size:13px
 }
 
-.badge-LOSS {
-  background:rgba(239,68,68,.2);
-  color:var(--red);
+.filter{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:10px
 }
 
-.badge-BE {
-  background:rgba(245,158,11,.2);
-  color:var(--amber);
+#previewImage{
+  max-width:100%;border-radius:10px;
+  margin-top:8px;display:none
 }
 
-.badge-OPEN {
-  background:rgba(156,163,175,.2);
-  color:var(--text-muted);
-}
-
-.grade-pill {
-  padding:2px 6px;
-  border-radius:4px;
-  font-size:9px;
-  font-family:var(--font-mono);
-  font-weight:bold;
-  background:rgba(59,130,246,.15);
-  color:var(--accent);
-  border:1px solid var(--accent);
-}
-
-.poi-tag {
-  padding:2px 6px;
-  border-radius:4px;
-  font-size:9px;
-  font-family:var(--font-mono);
-  font-weight:bold;
-  background:rgba(139,92,246,.15);
-  color:var(--purple);
-  border:1px solid var(--purple);
-  margin-left:4px;
-}
-
-.feed-body {
-  font-size:11px;
-  color:var(--text-muted);
-  line-height:1.6;
-  font-family:var(--font-mono);
-  word-break:break-word;
-}
-
-.feed-body b {
-  color:var(--text-main);
-}
-
-.preview-row {
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-  padding-top:4px;
-}
-
-.preview-row img {
-  width:100px;
-  height:65px;
-  object-fit:cover;
-  border-radius:6px;
-  border:1px solid var(--border);
-}
-
-/* MODAL */
-.modal-overlay {
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  background:rgba(9,10,15,.85);
-  backdrop-filter:blur(8px);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
-  padding:12px;
-}
-
-.modal {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:16px;
-  width:100%;
-  max-width:580px;
-  max-height:90vh;
-  overflow-y:auto;
-  padding:20px;
-}
-
-@media(max-width:600px) {
-  header {
-    flex-direction:column;
-    gap:8px;
-    padding:10px 12px;
-  }
-
-  .brand {
-    font-size:13px;
-  }
-
-  .nav-tabs {
-    width:100%;
-    justify-content:center;
-  }
-
-  .tab-btn {
-    flex:1;
-    text-align:center;
-    padding:6px 8px;
-    font-size:11px;
-  }
-
-  main {
-    padding:0 8px;
-    margin:12px auto;
-  }
-
-  .panel {
-    padding:14px;
-    border-radius:12px;
-  }
-
-  .form-grid {
-    grid-template-columns:1fr;
-    gap:10px;
-  }
-
-  .metric-row {
-    grid-template-columns:1fr;
-  }
-
-  .journal-stats {
-    grid-template-columns:repeat(2,1fr);
-    gap:6px;
-  }
-
-  .grade-cards-grid {
-    grid-template-columns:repeat(3,1fr);
-    gap:6px;
-  }
-
-  .poi-group {
-    grid-template-columns:1fr;
-  }
-
-  .calendar-grid {
-    gap:2px;
-  }
-
-  .cal-day-label {
-    font-size:8px;
-  }
-
-  .cal-day {
-    min-height:44px;
-    padding:2px;
-  }
-
-  .cal-day-num {
-    font-size:7.5px;
-  }
-
-  .cal-day-info {
-    font-size:7px;
-  }
-
-  .chip-grid {
-    grid-template-columns:1fr 1fr;
-    max-height:140px;
-  }
-
-  .feed-card {
-    width:100%;
-  }
-
-  .feed-card .btn-group {
-    flex-direction:row;
-    width:100%;
-    gap:6px;
-  }
-
-  .feed-card .btn {
-    flex:1 !important;
-    width:auto !important;
-    padding:8px 4px !important;
-    font-size:10px !important;
-  }
-
-  .filter-group {
-    min-width:100%;
-  }
+@media(max-width:430px){
+  .grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="brand">lowkey <span>/ journal</span></div>
+<div class="app">
 
-  <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab('logger',this)">1. Log Setup</button>
-    <button class="tab-btn" onclick="switchTab('journal',this)">2. Journal</button>
+  <div class="header">
+    <div>
+      <div class="logo">TRADE<span>LOG</span></div>
+      <div class="sub">V1 TRADING JOURNAL</div>
+    </div>
+    <div class="sub" id="tradeCount">0 TRADES</div>
   </div>
-</header>
 
-<main>
+  <div class="tabs">
+    <button class="tab active" id="setupTab" onclick="showPage('setup')">
+      1. LOG SETUP
+    </button>
+    <button class="tab" id="journalTab" onclick="showPage('journal')">
+      2. JOURNAL
+    </button>
+  </div>
+
+  <!-- ================= SETUP ================= -->
+
+  <div id="setupPage">
+
+    <div class="card">
+      <div class="section-title">TRADE DETAILS</div>
+
+      <div class="grid">
+
+        <div>
+          <label>DATE</label>
+          <input type="date" id="date">
+        </div>
+
+        <div>
+          <label>TIME</label>
+          <input type="time" id="time">
+        </div>
+
+        <div>
+          <label>ASSET</label>
+          <select id="asset">
+            <option value="">Select asset</option>
+            <option>EURUSD</option>
+            <option>XAUUSD</option>
+            <option>GBPUSD</option>
+            <option>NAS100</option>
+            <option>US30</option>
+            <option>USDJPY</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label>TIMEFRAME</label>
+          <select id="timeframe">
+            <option value="">Select timeframe</option>
+            <option>1M</option>
+            <option>5M</option>
+            <option>15M</option>
+            <option>30M</option>
+            <option>1H</option>
+            <option>4H</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">SESSION</div>
+
+      <div class="sessions">
+
+        <div class="session">
+          <input type="radio" name="session" id="s1" value="Market Open 9:30-9:50 AM">
+          <label for="s1">MARKET OPEN<br>9:30–9:50 AM</label>
+        </div>
+
+        <div class="session">
+          <input type="radio" name="session" id="s2" value="Macro 9:50-10:20 AM">
+          <label for="s2">MACRO<br>9:50–10:20 AM</label>
+        </div>
+
+        <div class="session">
+          <input type="radio" name="session" id="s3" value="AM Silverbullet 10-10:30 AM">
+          <label for="s3">AM SILVERBULLET<br>10–10:30 AM</label>
+        </div>
+
+        <div class="session">
+          <input type="radio" name="session" id="s4" value="PM Session 2-4 PM">
+          <label for="s4">PM SESSION<br>2–4 PM</label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">DIRECTION</div>
+
+      <div class="direction">
+        <div>
+          <input type="radio" name="direction" id="long" value="Long">
+          <label for="long">LONG ↑</label>
+        </div>
+
+        <div>
+          <input type="radio" name="direction" id="short" value="Short">
+          <label for="short">SHORT ↓</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">SETUP INFORMATION</div>
+
+      <div class="grid">
+
+        <div>
+          <label>SETUP / MODEL</label>
+          <select id="setup">
+            <option value="">Select setup</option>
+            <option>Unicorn</option>
+            <option>FVG</option>
+            <option>Breaker</option>
+            <option>Liquidity Sweep</option>
+            <option>Silver Bullet</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label>HTF BIAS</label>
+          <select id="bias">
+            <option value="">Select bias</option>
+            <option>Bullish</option>
+            <option>Bearish</option>
+            <option>Neutral</option>
+          </select>
+        </div>
+
+        <div>
+          <label>ENTRY</label>
+          <input type="number" step="any" id="entry" placeholder="0.00000">
+        </div>
+
+        <div>
+          <label>STOP LOSS</label>
+          <input type="number" step="any" id="sl" placeholder="0.00000">
+        </div>
+
+        <div>
+          <label>TAKE PROFIT</label>
+          <input type="number" step="any" id="tp" placeholder="0.00000">
+        </div>
+
+        <div>
+          <label>R:R</label>
+          <input type="number" step="0.01" id="rr" placeholder="2.0">
+        </div>
+
+        <div>
+          <label>RESULT</label>
+          <select id="result">
+            <option value="">Select result</option>
+            <option value="Win">Win</option>
+            <option value="Loss">Loss</option>
+            <option value="Breakeven">Breakeven</option>
+          </select>
+        </div>
+
+        <div>
+          <label>R MULTIPLE</label>
+          <input type="number" step="0.01" id="rResult" placeholder="+2 / -1">
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">TRADE NOTES</div>
+
+      <textarea id="notes" placeholder="What happened? Why did you take this trade? What did you learn?"></textarea>
+
+      <label style="margin-top:12px">TRADE SCREENSHOT</label>
+      <input type="file" id="image" accept="image/*" onchange="previewImage(event)">
+      <img id="previewImage">
+
+    </div>
+
+    <div class="buttons">
+      <button class="btn" id="saveBtn" onclick="saveTrade()">SAVE TRADE</button>
+      <button class="btn secondary" onclick="resetForm()">CLEAR</button>
+    </div>
+
+  </div>
+
+  <!-- ================= JOURNAL ================= -->
+
+  <div id="journalPage" class="hidden">
+
+    <div class="card">
+      <div class="section-title">JOURNAL METRICS</div>
+
+      <div class="metrics">
+        <div class="metric">
+          <small>TOTAL TRADES</small>
+          <strong id="mTotal">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>WIN RATE</small>
+          <strong id="mWinRate">0%</strong>
+        </div>
+
+        <div class="metric">
+          <small>NET R</small>
+          <strong id="mNetR">0R</strong>
+        </div>
+
+        <div class="metric">
+          <small>AVG R</small>
+          <strong id="mAvgR">0R</strong>
+        </div>
+
+        <div class="metric">
+          <small>WINS</small>
+          <strong id="mWins">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>LOSSES</small>
+          <strong id="mLosses">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>PROFIT FACTOR</small>
+          <strong id="mPF">0</strong>
+        </div>
+
+        <div class="metric">
+          <small>BEST STREAK</small>
+          <strong id="mStreak">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">FILTER JOURNAL</div>
+
+      <div class="filter">
+        <select id="filterAsset" onchange="renderJournal()">
+          <option value="">All Assets</option>
+          <option>EURUSD</option>
+          <option>XAUUSD</option>
+          <option>GBPUSD</option>
+          <option>NAS100</option>
+          <option>US30</option>
+          <option>USDJPY</option>
+          <option>Other</option>
+        </select>
+
+        <select id="filterResult" onchange="renderJournal()">
+          <option value="">All Results</option>
+          <option>Win</option>
+          <option>Loss</option>
+          <option>Breakeven</option>
+        </select>
+      </div>
+
+      <div class="buttons">
+        <button class="btn secondary" onclick="exportCSV()">EXPORT CSV</button>
+        <button class="btn danger" onclick="clearAllTrades()">DELETE ALL</button>
+      </div>
+    </div>
+
+    <div id="journalList"></div>
+
+  </div>
 
-<!-- TAB 1 -->
-<div id="logger" class="tab-content active">
-
-<section class="panel">
-
-<div class="panel-title">Trade Execution</div>
-
-<div class="form-grid">
-
-<label>
-Date & Time
-<input id="datetime" type="datetime-local" onchange="autoDetectSession('datetime','session')">
-</label>
-
-<label>
-Symbol
-<input id="symbol" type="text" value="EURUSD">
-</label>
-
-<label>
-Direction
-<select id="direction">
-<option value="BUY">BUY</option>
-<option value="SELL">SELL</option>
-</select>
-</label>
-
-<label>
-Entry Price
-<input id="entry" type="number" step="any" inputmode="decimal" placeholder="e.g. 1.08500">
-</label>
-
-<label>
-Stop Loss
-<input id="sl" type="number" step="any" inputmode="decimal" placeholder="e.g. 1.08300">
-</label>
-
-<label>
-Take Profit
-<input id="tp" type="number" step="any" inputmode="decimal" placeholder="e.g. 1.09000">
-</label>
-
-<label class="full">
-Final Exit Price (Leave blank if trade is still Open)
-
-<input id="exitPrice" type="number" step="any" inputmode="decimal" placeholder="e.g. 1.09000">
-
-<div class="toggle-chip">
-<input type="checkbox" id="isBE" onchange="toggleBE(this)">
-<span>Closed Remaining Position at Break Even (BE)</span>
-</div>
-
-</label>
-
-<div class="full partials-box">
-
-<div class="partials-header">
-<span>Partials Taken</span>
-<button class="btn-sm btn-secondary" type="button" onclick="addPartialRow('partialsContainer')">
-+ Add Partial
-</button>
-</div>
-
-<div id="partialsContainer"></div>
-
-</div>
-
-</div>
-
-<div class="metric-row">
-
-<div class="metric-card">
-<p>PLANNED R:R</p>
-<h2 id="rrDisplay">—</h2>
-</div>
-
-<div class="metric-card">
-<p>REALIZED R:R / OUTCOME</p>
-<h2 id="statusDisplay" style="color:var(--amber);">OPEN</h2>
-</div>
-
-</div>
-
-<div class="btn-group">
-<button class="btn btn-primary" onclick="saveTrade()">Save Setup</button>
-</div>
-
-</section>
-
-
-<section class="panel">
-
-<div class="panel-title">ICT Context & Strategy Metrics</div>
-
-<div class="form-grid">
-
-<label>
-Setup Grade Rating
-
-<select id="setupGrade" onchange="handleGradeSelection(this.value,'gradePopoutMain')">
-<option value="—">Select Grade Rating...</option>
-<option value="A">Grade A (Optimal Prime Setup)</option>
-<option value="B">Grade B (Active PDA Clean Setup)</option>
-<option value="C">Grade C (No Visible PDA Setup)</option>
-<option value="D">Grade D (New Swing MSS Setup)</option>
-<option value="E">Grade E (Forced / Fomo Setup)</option>
-</select>
-
-<div class="grade-popout" id="gradePopoutMain"></div>
-
-</label>
-
-
-<label>
-HTF Bias
-
-<select id="bias">
-<option>—</option>
-<option>Bullish</option>
-<option>Bearish</option>
-<option>Neutral</option>
-</select>
-
-</label>
-
-
-<label>
-Killzone / Session (Auto-Detected)
-
-<select id="session">
-<option>—</option>
-<option>Asian Session</option>
-<option>London Open KZ</option>
-<option>London Session</option>
-<option>NY AM KZ</option>
-<option>NY PM KZ</option>
-<option>London Close KZ</option>
-<option>Off-Hours</option>
-</select>
-
-</label>
-
-
-<label class="full">
-Setup POI (Select Active Arrays)
-
-<div class="poi-group" id="poiMainGroup">
-
-<div class="poi-tf-box">
-<span class="poi-tf-title">4-HOUR (4H)</span>
-
-<div class="poi-chips">
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="4H FVG"> FVG
-</label>
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="4H OB"> OB
-</label>
-</div>
-</div>
-
-
-<div class="poi-tf-box">
-<span class="poi-tf-title">1-HOUR (1H)</span>
-
-<div class="poi-chips">
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="1H FVG"> FVG
-</label>
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="1H OB"> OB
-</label>
-</div>
-</div>
-
-
-<div class="poi-tf-box">
-<span class="poi-tf-title">15-MIN (15M)</span>
-
-<div class="poi-chips">
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="15M FVG"> FVG
-</label>
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="15M OB"> OB
-</label>
-</div>
-</div>
-
-</div>
-</label>
-
-
-<label class="full">
-Draw on Liquidity (DOL)
-<input id="targetLevel" type="text" placeholder="e.g. BSL, SSL, PDH, PDL, FVG Target">
-</label>
-
-
-<label class="full">
-Execution & Strategy Mistakes
-
-<div class="chip-grid" id="mistakesGroup">
-
-<label class="chip">
-<input type="checkbox" value="Weak MSS"> Weak MSS
-</label>
-
-<label class="chip">
-<input type="checkbox" value="Early BE"> Early BE
-</label>
-
-<label class="chip">
-<input type="checkbox" value="Forced Entry"> Forced
-</label>
-
-<label class="chip">
-<input type="checkbox" value="FOMO Execution"> FOMO
-</label>
-
-<label class="chip">
-<input type="checkbox" value="No Clear Bias"> No Clear Bias
-</label>
-
-</div>
-</label>
-
-
-<label class="full">
-TradingView Link
-
-<div style="display:flex;gap:8px;">
-
-<input id="imageUrl" type="text" placeholder="https://www.tradingview.com/x/...">
-
-<button class="btn btn-secondary"
-type="button"
-style="flex:0 0 80px;"
-onclick="addUrlImage()">
-Embed
-</button>
-
-</div>
-</label>
-
-
-<div class="full preview-row" id="previewContainer"></div>
-
-
-<label class="full">
-Detailed Notes & Feedback
-
-<textarea id="notes" rows="3"
-placeholder="Execution thoughts, market conditions, trade analysis..."></textarea>
-
-</label>
-
-</div>
-
-</section>
-
-</div>
-
-
-<!-- TAB 2 -->
-<div id="journal" class="tab-content">
-
-<div class="filter-bar">
-
-<div class="filter-group">
-
-<label>TIME FILTER:</label>
-
-<div class="filter-inputs">
-
-<select id="timePreset" onchange="handleTimeFilterChange()">
-
-<option value="ALL">All Time</option>
-<option value="THIS_MONTH">This Month</option>
-<option value="PREV_MONTH">Last Month</option>
-<option value="Q1">Q1 (Jan - Mar)</option>
-<option value="Q2">Q2 (Apr - Jun)</option>
-<option value="Q3">Q3 (Jul - Sep)</option>
-<option value="Q4">Q4 (Oct - Dec)</option>
-<option value="CUSTOM">Custom Range...</option>
-
-</select>
-
-<select id="filterYear" onchange="renderJournal()" style="max-width:85px;">
-
-<option value="2026" selected>2026</option>
-<option value="2025">2025</option>
-<option value="2024">2024</option>
-
-</select>
-
-</div>
-</div>
-
-
-<div class="filter-inputs"
-id="customRangeGroup"
-style="display:none;flex:1;min-width:200px;">
-
-<input type="date" id="startDate" onchange="renderJournal()">
-<input type="date" id="endDate" onchange="renderJournal()">
-
-</div>
-
-</div>
-
-
-<!-- STATS -->
-
-<div class="journal-stats">
-
-<div class="stat-box">
-<span>TOTAL TRADES</span>
-<h3 id="stTotal">0</h3>
-</div>
-
-<div class="stat-box">
-<span>NET RR</span>
-<h3 id="stNetRR" style="color:var(--green);">0.00R</h3>
-</div>
-
-<div class="stat-box">
-<span>WIN RATE</span>
-<h3 id="stWinRate" style="color:var(--accent);">0%</h3>
-</div>
-
-<div class="stat-box">
-<span>PROFIT FACTOR</span>
-<h3 id="stProfitFactor">0.00</h3>
-</div>
-
-<div class="stat-box">
-<span>DAYS TRADED</span>
-<h3 id="stDaysTraded">0</h3>
-</div>
-
-<div class="stat-box">
-<span>TOP SESSION</span>
-<h3 id="stTopSession" style="font-size:11px;margin-top:2px;">—</h3>
-</div>
-
-</div>
-
-
-<!-- GRADE PERFORMANCE -->
-
-<div class="panel-title"
-style="margin-top:10px;margin-bottom:8px;">
-Setup Grade Performance
-</div>
-
-<div class="grade-cards-grid">
-
-<div class="grade-card">
-<div class="grade-badge">GRADE A</div>
-<div class="grade-val" id="grA_win">—</div>
-<div class="grade-sub" id="grA_sub">0 trades (0R)</div>
-</div>
-
-<div class="grade-card">
-<div class="grade-badge">GRADE B</div>
-<div class="grade-val" id="grB_win">—</div>
-<div class="grade-sub" id="grB_sub">0 trades (0R)</div>
-</div>
-
-<div class="grade-card">
-<div class="grade-badge">GRADE C</div>
-<div class="grade-val" id="grC_win">—</div>
-<div class="grade-sub" id="grC_sub">0 trades (0R)</div>
-</div>
-
-<div class="grade-card">
-<div class="grade-badge">GRADE D</div>
-<div class="grade-val" id="grD_win">—</div>
-<div class="grade-sub" id="grD_sub">0 trades (0R)</div>
-</div>
-
-<div class="grade-card">
-<div class="grade-badge">GRADE E</div>
-<div class="grade-val" id="grE_win">—</div>
-<div class="grade-sub" id="grE_sub">0 trades (0R)</div>
-</div>
-
-</div>
-
-
-<!-- CALENDAR -->
-
-<section class="panel">
-
-<div class="calendar-header">
-
-<button class="cal-nav-btn" onclick="changeMonth(-1)">
-← Prev
-</button>
-
-<div class="calendar-controls">
-
-<select id="calSelectMonth" onchange="onCalendarSelectChange()">
-<option value="0">January</option>
-<option value="1">February</option>
-<option value="2">March</option>
-<option value="3">April</option>
-<option value="4">May</option>
-<option value="5">June</option>
-<option value="6">July</option>
-<option value="7">August</option>
-<option value="8">September</option>
-<option value="9">October</option>
-<option value="10">November</option>
-<option value="11">December</option>
-</select>
-
-<select id="calSelectYear" onchange="onCalendarSelectChange()">
-<option value="2026">2026</option>
-<option value="2025">2025</option>
-<option value="2024">2024</option>
-</select>
-
-</div>
-
-<button class="cal-nav-btn" onclick="changeMonth(1)">
-Next →
-</button>
-
-</div>
-
-
-<div class="calendar-grid">
-
-<div class="cal-day-label">SUN</div>
-<div class="cal-day-label">MON</div>
-<div class="cal-day-label">TUE</div>
-<div class="cal-day-label">WED</div>
-<div class="cal-day-label">THU</div>
-<div class="cal-day-label">FRI</div>
-<div class="cal-day-label">SAT</div>
-
-</div>
-
-<div class="calendar-grid"
-id="calendarDays"
-style="margin-top:6px;">
-</div>
-
-</section>
-
-
-<div class="btn-group" style="margin-bottom:16px;">
-
-<button class="btn btn-secondary"
-onclick="openExportModal()">
-Export CSV
-</button>
-
-<button class="btn btn-secondary"
-onclick="resetFilter()">
-Reset Date Filter
-</button>
-
-<button class="btn btn-danger"
-onclick="deleteAllTrades()">
-Clear Records
-</button>
-
-</div>
-
-
-<div class="trade-feed" id="journalList"></div>
-
-</div>
-
-</main>
-
-
-<!-- EDIT MODAL -->
-
-<div class="modal-overlay" id="editModal">
-
-<div class="modal">
-
-<div class="panel-title">Edit Entry</div>
-
-<div class="form-grid">
-
-<input type="hidden" id="editId">
-
-<label class="full">
-Date & Time
-
-<input id="editDatetime"
-type="datetime-local"
-onchange="autoDetectSession('editDatetime','editSession')">
-
-</label>
-
-
-<label>
-Entry Price
-<input id="editEntry"
-type="number"
-step="any"
-inputmode="decimal"
-oninput="calculateModalOutcome()">
-</label>
-
-
-<label>
-Stop Loss
-<input id="editSL"
-type="number"
-step="any"
-inputmode="decimal"
-oninput="calculateModalOutcome()">
-</label>
-
-
-<label>
-Take Profit
-<input id="editTP"
-type="number"
-step="any"
-inputmode="decimal"
-oninput="calculateModalOutcome()">
-</label>
-
-
-<label class="full">
-Final Exit Price
-
-<input id="editExitPrice"
-type="number"
-step="any"
-inputmode="decimal"
-oninput="calculateModalOutcome()">
-
-<div class="toggle-chip">
-
-<input type="checkbox"
-id="editIsBE"
-onchange="toggleModalBE(this)">
-
-<span>Closed Remaining Position at Break Even (BE)</span>
-
-</div>
-
-</label>
-
-
-<div class="full partials-box">
-
-<div class="partials-header">
-
-<span>Partials Taken</span>
-
-<button class="btn-sm btn-secondary"
-type="button"
-onclick="addPartialRow('editPartialsContainer')">
-+ Add Partial
-</button>
-
-</div>
-
-<div id="editPartialsContainer"></div>
-
-</div>
-
-
-<label>
-Killzone / Session
-
-<select id="editSession">
-
-<option>—</option>
-<option>Asian Session</option>
-<option>London Open KZ</option>
-<option>London Session</option>
-<option>NY AM KZ</option>
-<option>NY PM KZ</option>
-<option>London Close KZ</option>
-<option>Off-Hours</option>
-
-</select>
-
-</label>
-
-
-<label class="full">
-Setup POI Arrays
-
-<div class="poi-group" id="poiEditGroup">
-
-<div class="poi-tf-box">
-
-<span class="poi-tf-title">4-HOUR (4H)</span>
-
-<div class="poi-chips">
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="4H FVG"> FVG
-</label>
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="4H OB"> OB
-</label>
-
-</div>
-</div>
-
-
-<div class="poi-tf-box">
-
-<span class="poi-tf-title">1-HOUR (1H)</span>
-
-<div class="poi-chips">
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="1H FVG"> FVG
-</label>
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="1H OB"> OB
-</label>
-
-</div>
 </div>
-
-
-<div class="poi-tf-box">
-
-<span class="poi-tf-title">15-MIN (15M)</span>
-
-<div class="poi-chips">
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="15M FVG"> FVG
-</label>
-
-<label class="poi-chip" onclick="togglePoiChip(this)">
-<input type="checkbox" value="15M OB"> OB
-</label>
-
-</div>
-</div>
-
-</div>
-</label>
-
-
-<label class="full">
-Setup Grade Rating
-
-<select id="editSetupGrade"
-onchange="handleGradeSelection(this.value,'gradePopoutModal')">
-
-<option value="—">Select Grade Rating...</option>
-<option value="A">Grade A (Optimal Prime Setup)</option>
-<option value="B">Grade B (Active PDA Clean Setup)</option>
-<option value="C">Grade C (No Visible PDA Setup)</option>
-<option value="D">Grade D (New Swing MSS Setup)</option>
-<option value="E">Grade E (Forced / Fomo Setup)</option>
-
-</select>
-
-<div class="grade-popout"
-id="gradePopoutModal">
-</div>
-
-</label>
-
-
-<label class="full">
-Draw on Liquidity
-<input id="editTargetLevel" type="text">
-</label>
-
-
-<label class="full">
-Notes
-<textarea id="editNotes" rows="3"></textarea>
-</label>
-
-</div>
-
-
-<div class="metric-row" style="margin-top:12px;">
-
-<div class="metric-card">
-<p>PLANNED R:R</p>
-<h2 id="editRRDisplay">—</h2>
-</div>
-
-<div class="metric-card">
-<p>REALIZED R:R / OUTCOME</p>
-<h2 id="editStatusDisplay"
-style="color:var(--amber);">
-OPEN
-</h2>
-</div>
-
-</div>
-
-
-<div class="btn-group" style="margin-top:14px;">
-
-<button class="btn btn-primary"
-onclick="saveEdit()">
-Save Changes
-</button>
-
-<button class="btn btn-secondary"
-onclick="closeEditModal()">
-Cancel
-</button>
-
-</div>
-
-</div>
-</div>
-
-
-<!-- EXPORT MODAL -->
-
-<div class="modal-overlay" id="exportModal">
-
-<div class="modal">
-
-<div class="panel-title">Export CSV Data</div>
-
-<div class="form-grid">
-
-<label class="full">
-Export Selection Mode
-
-<select id="exportScope"
-onchange="toggleExportScopeInputs()">
-
-<option value="ALL">All Time Trades</option>
-<option value="CURRENT_FILTER">Current Journal View Filter</option>
-<option value="MONTH">Specific Month & Year</option>
-
-</select>
-</label>
-
-
-<div class="full"
-id="exportMonthYearGroup"
-style="display:none;">
-
-<div style="display:flex;gap:8px;">
-
-<label style="flex:1;">
-Month
-
-<select id="exportMonth">
-
-<option value="0">January</option>
-<option value="1">February</option>
-<option value="2">March</option>
-<option value="3">April</option>
-<option value="4">May</option>
-<option value="5">June</option>
-<option value="6">July</option>
-<option value="7">August</option>
-<option value="8">September</option>
-<option value="9">October</option>
-<option value="10">November</option>
-<option value="11">December</option>
-
-</select>
-
-</label>
-
-
-<label style="flex:1;">
-Year
-
-<select id="exportYear">
-
-<option value="2026" selected>2026</option>
-<option value="2025">2025</option>
-<option value="2024">2024</option>
-
-</select>
-
-</label>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="btn-group" style="margin-top:16px;">
-
-<button class="btn btn-primary"
-onclick="executeCSVExport()">
-Download CSV
-</button>
-
-<button class="btn btn-secondary"
-onclick="closeExportModal()">
-Cancel
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 
 <script>
 
-let trades = JSON.parse(
-  localStorage.getItem("LOWKEY_JOURNAL_TRADES") || "[]"
-);
+let trades = JSON.parse(localStorage.getItem("tradeJournalV1") || "[]");
+let editingId = null;
+let currentImage = "";
 
-let currentImages = [];
-let currentCalDate = new Date();
-let activeDateFilter = null;
-
-
-const GRADE_CONFIG = {
-
-"A": {
-title:"GRADE A — OPTIMAL SETUP",
-checklist:[
-"Price traded into Order Block (OB)",
-"Clean Stop Hunt / Sweep executed",
-"Displacement with Market Structure Shift (MSS)"
-]
-},
-
-"B": {
-title:"GRADE B — ACTIVE PDA SETUP",
-checklist:[
-"No Order Block present",
-"Traded into Active PDA array",
-"Clean Stop Hunt / Sweep executed",
-"Displacement with Market Structure Shift (MSS)"
-]
-},
-
-"C": {
-title:"GRADE C — NO VISIBLE PDA SETUP",
-checklist:[
-"No active or easily visible PDA traded into",
-"Stop Hunt / Sweep executed",
-"Displacement with Market Structure Shift (MSS)"
-]
-},
-
-"D": {
-title:"GRADE D — NEW SWING MSS SETUP",
-checklist:[
-"MSS formed from newly formed swing (Not OB)",
-"Stop Hunt / Sweep executed",
-"Displacement present"
-]
-},
-
-"E": {
-title:"GRADE E — FORCED SETUP",
-checklist:[
-"Forced entry / Low probability",
-"Chasing price or FOMO execution"
-]
+function $(id){
+  return document.getElementById(id);
 }
 
-};
+/* DEFAULT DATE + TIME */
 
+function setCurrentDateTime(){
+  const now = new Date();
 
-document.addEventListener("DOMContentLoaded",()=>{
+  const y = now.getFullYear();
+  const m = String(now.getMonth()+1).padStart(2,"0");
+  const d = String(now.getDate()).padStart(2,"0");
 
-setAutomaticDateTime();
+  $("date").value = `${y}-${m}-${d}`;
 
-const inputs=[
-"entry",
-"sl",
-"tp",
-"exitPrice",
-"direction"
-];
-
-inputs.forEach(id=>{
-document.getElementById(id)
-.addEventListener("input",autoCalculateMain);
-});
-
-});
-
-
-function togglePoiChip(el){
-
-const checkbox=
-el.querySelector('input[type="checkbox"]');
-
-checkbox.checked=!checkbox.checked;
-
-if(checkbox.checked){
-el.classList.add("active");
-}else{
-el.classList.remove("active");
+  $("time").value =
+    String(now.getHours()).padStart(2,"0") + ":" +
+    String(now.getMinutes()).padStart(2,"0");
 }
 
+/* PAGE SWITCH */
+
+function showPage(page){
+
+  if(page === "setup"){
+
+    $("setupPage").classList.remove("hidden");
+    $("journalPage").classList.add("hidden");
+
+    $("setupTab").classList.add("active");
+    $("journalTab").classList.remove("active");
+
+  }else{
+
+    $("setupPage").classList.add("hidden");
+    $("journalPage").classList.remove("hidden");
+
+    $("setupTab").classList.remove("active");
+    $("journalTab").classList.add("active");
+
+    updateMetrics();
+    renderJournal();
+  }
 }
 
+/* IMAGE */
 
-function getSelectedPoiChips(containerId){
+function previewImage(event){
 
-const container=
-document.getElementById(containerId);
+  const file = event.target.files[0];
 
-return Array.from(
-container.querySelectorAll("input[type='checkbox']:checked")
-).map(cb=>cb.value);
+  if(!file)return;
 
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    currentImage = e.target.result;
+
+    $("previewImage").src = currentImage;
+    $("previewImage").style.display = "block";
+
+  };
+
+  reader.readAsDataURL(file);
 }
 
-
-function setSelectedPoiChips(containerId,values=[]){
-
-const container=
-document.getElementById(containerId);
-
-container.querySelectorAll(".poi-chip")
-.forEach(chip=>{
-
-const cb=
-chip.querySelector("input[type='checkbox']");
-
-if(values.includes(cb.value)){
-
-cb.checked=true;
-chip.classList.add("active");
-
-}else{
-
-cb.checked=false;
-chip.classList.remove("active");
-
-}
-
-});
-
-}
-
-
-/* SESSION DETECTOR */
-
-function autoDetectSession(datetimeInputId,sessionSelectId){
-
-const dtVal=
-document.getElementById(datetimeInputId).value;
-
-if(!dtVal)return;
-
-const dt=new Date(dtVal);
-
-const hour=dt.getHours();
-const minutes=dt.getMinutes();
-
-const timeNum=hour+(minutes/60);
-
-let detectedSession="Off-Hours";
-
-if(timeNum>=3&&timeNum<6){
-
-detectedSession="London Open KZ";
-
-}else if(timeNum>=6&&timeNum<8){
-
-detectedSession="London Session";
-
-}else if(timeNum>=8&&timeNum<=11){
-
-detectedSession="NY AM KZ";
-
-}else if(timeNum>11&&timeNum<=16){
-
-detectedSession="NY PM KZ";
-
-}else if(timeNum>=20||timeNum<3){
-
-detectedSession="Asian Session";
-
-}
-
-const select=
-document.getElementById(sessionSelectId);
-
-for(let i=0;i<select.options.length;i++){
-
-if(select.options[i].value===detectedSession){
-
-select.selectedIndex=i;
-break;
-
-}
-
-}
-
-}
-
-
-/* GRADE */
-
-function handleGradeSelection(grade,popoutId){
-
-const container=
-document.getElementById(popoutId);
-
-if(!GRADE_CONFIG[grade]){
-
-container.classList.remove("active");
-container.innerHTML="";
-
-return;
-
-}
-
-const config=GRADE_CONFIG[grade];
-
-const itemsHtml=
-config.checklist
-.map(item=>`
-<div class="chk-item">
-<span>✓</span> ${item}
-</div>
-`)
-.join("");
-
-container.innerHTML=`
-<header>${config.title}</header>
-<div class="grade-checklist">
-${itemsHtml}
-</div>
-`;
-
-container.classList.add("active");
-
-}
-
-
-/* TABS */
-
-function switchTab(tabId,button){
-
-document
-.querySelectorAll(".tab-content")
-.forEach(el=>el.classList.remove("active"));
-
-document
-.querySelectorAll(".tab-btn")
-.forEach(el=>el.classList.remove("active"));
-
-document
-.getElementById(tabId)
-.classList.add("active");
-
-button.classList.add("active");
-
-if(tabId==="journal"){
-renderJournal();
-}
-
-}
-
-
-/* DATE */
-
-function setAutomaticDateTime(){
-
-const now=new Date();
-
-const offset=now.getTimezoneOffset();
-
-const localTime=
-new Date(now.getTime()-offset*60000);
-
-document.getElementById("datetime")
-.value=localTime.toISOString().slice(0,16);
-
-autoDetectSession("datetime","session");
-
-}
-
-
-/* BREAK EVEN */
-
-function toggleBE(cb){
-
-const exitInput=
-document.getElementById("exitPrice");
-
-if(cb.checked){
-
-exitInput.value=
-document.getElementById("entry").value;
-
-exitInput.disabled=true;
-
-}else{
-
-exitInput.disabled=false;
-
-}
-
-autoCalculateMain();
-
-}
-
-
-function toggleModalBE(cb){
-
-const exitInput=
-document.getElementById("editExitPrice");
-
-if(cb.checked){
-
-exitInput.value=
-document.getElementById("editEntry").value;
-
-exitInput.disabled=true;
-
-}else{
-
-exitInput.disabled=false;
-
-}
-
-calculateModalOutcome();
-
-}
-
-
-/* PARTIALS */
-
-function addPartialRow(
-containerId,
-initialPrice="",
-initialPct=""
-){
-
-const container=
-document.getElementById(containerId);
-
-const row=
-document.createElement("div");
-
-row.className="partial-row";
-
-const calcFunction=
-containerId==="partialsContainer"
-?"autoCalculateMain()"
-:"calculateModalOutcome()";
-
-row.innerHTML=`
-
-<input
-type="number"
-step="any"
-inputmode="decimal"
-placeholder="Partial Price"
-value="${initialPrice}"
-class="partial-price"
-oninput="${calcFunction}">
-
-<input
-type="number"
-step="any"
-inputmode="decimal"
-placeholder="Size Closed %"
-value="${initialPct}"
-class="partial-pct"
-oninput="${calcFunction}">
-
-<button
-class="btn-sm btn-danger"
-type="button"
-onclick="this.parentElement.remove();${calcFunction}">
-✕
-</button>
-
-`;
-
-container.appendChild(row);
-
-}
-
-
-function getPartialsData(containerId){
-
-const rows=
-document.querySelectorAll(
-`#${containerId} .partial-row`
-);
-
-const partials=[];
-
-rows.forEach(row=>{
-
-const price=
-parseFloat(
-row.querySelector(".partial-price").value
-);
-
-const pct=
-parseFloat(
-row.querySelector(".partial-pct").value
-);
-
-if(
-Number.isFinite(price)&&
-Number.isFinite(pct)&&
-pct>0
-){
-
-partials.push({
-price,
-pct
-});
-
-}
-
-});
-
-return partials;
-
-}
-
-
-/* CALCULATIONS */
-
-function computeTradeMetrics(
-entry,
-sl,
-tp,
-exitPrice,
-direction,
-isBE,
-partials=[]
-){
-
-let plannedRR=null;
-let realizedRR=0;
-let result="OPEN";
-
-if(
-Number.isFinite(entry)&&
-Number.isFinite(sl)&&
-Number.isFinite(tp)
-){
-
-const risk=
-direction==="BUY"
-?(entry-sl)
-:(sl-entry);
-
-const reward=
-direction==="BUY"
-?(tp-entry)
-:(entry-tp);
-
-if(risk>0&&reward>0){
-
-plannedRR=reward/risk;
-
-}
-
-if(risk>0){
-
-let remainingPct=100;
-let partialsRRSum=0;
-
-partials.forEach(p=>{
-
-const pDiff=
-direction==="BUY"
-?(p.price-entry)
-:(entry-p.price);
-
-const pRR=pDiff/risk;
-
-const effectivePct=
-Math.min(p.pct,remainingPct);
-
-partialsRRSum+=
-pRR*(effectivePct/100);
-
-remainingPct-=effectivePct;
-
-});
-
-
-let remainingRR=0;
-
-if(isBE){
-
-remainingRR=0;
-
-}else if(Number.isFinite(exitPrice)){
-
-const exitDiff=
-direction==="BUY"
-?(exitPrice-entry)
-:(entry-exitPrice);
-
-remainingRR=
-(exitDiff/risk)*(remainingPct/100);
-
-}
-
-realizedRR=
-partialsRRSum+remainingRR;
-
-if(
-isBE||
-Number.isFinite(exitPrice)||
-partials.length>0
-){
-
-if(realizedRR>0.05){
-
-result="WIN";
-
-}else if(realizedRR<-0.05){
-
-result="LOSS";
-
-}else{
-
-result="BE";
-
-}
-
-}
-
-}
-
-}
-
-return {
-plannedRR,
-realizedRR,
-result
-};
-
-}
-
-
-/* MAIN CALCULATOR */
-
-function autoCalculateMain(){
-
-const entry=
-parseFloat(document.getElementById("entry").value);
-
-const sl=
-parseFloat(document.getElementById("sl").value);
-
-const tp=
-parseFloat(document.getElementById("tp").value);
-
-const exitPrice=
-parseFloat(document.getElementById("exitPrice").value);
-
-const direction=
-document.getElementById("direction").value;
-
-const isBE=
-document.getElementById("isBE").checked;
-
-const partials=
-getPartialsData("partialsContainer");
-
-const {
-plannedRR,
-realizedRR,
-result
-}=
-computeTradeMetrics(
-entry,
-sl,
-tp,
-exitPrice,
-direction,
-isBE,
-partials
-);
-
-document.getElementById("rrDisplay")
-.textContent=
-plannedRR
-?("1:"+plannedRR.toFixed(2))
-:"—";
-
-const statDisp=
-document.getElementById("statusDisplay");
-
-statDisp.textContent=
-`${result} (${realizedRR>=0?"+":""}${realizedRR.toFixed(2)}R)`;
-
-if(result==="WIN")
-statDisp.style.color="var(--green)";
-else if(result==="LOSS")
-statDisp.style.color="var(--red)";
-else if(result==="BE")
-statDisp.style.color="var(--amber)";
-else
-statDisp.style.color="var(--text-muted)";
-
-}
-
-
-/* CHECKBOXES */
-
-function getSelectedCheckboxes(containerId){
-
-const container=
-document.getElementById(containerId);
-
-return Array.from(
-container.querySelectorAll(
-"input[type='checkbox']:checked"
-)
-).map(cb=>cb.value);
-
-}
-
-
-function clearCheckboxes(containerId){
-
-document
-.getElementById(containerId)
-.querySelectorAll("input[type='checkbox']")
-.forEach(cb=>cb.checked=false);
-
-}
-
-
-/* IMAGES */
-
-function addUrlImage(){
-
-const urlInput=
-document.getElementById("imageUrl");
-
-if(urlInput.value.trim()!==""){
-
-currentImages.push(
-urlInput.value.trim()
-);
-
-urlInput.value="";
-
-renderPreviews();
-
-}
-
-}
-
-
-function renderPreviews(){
-
-document.getElementById("previewContainer")
-.innerHTML=
-currentImages
-.map(src=>`<img src="${src}">`)
-.join("");
-
-}
-
-
-/* SAVE TRADE */
+/* SAVE */
 
 function saveTrade(){
 
-const entry=
-parseFloat(document.getElementById("entry").value);
+  const session = document.querySelector('input[name="session"]:checked');
+  const direction = document.querySelector('input[name="direction"]:checked');
 
-const sl=
-parseFloat(document.getElementById("sl").value);
+  if(!$("date").value){
+    alert("Please enter the trade date.");
+    return;
+  }
 
-const tp=
-parseFloat(document.getElementById("tp").value);
+  if(!$("asset").value){
+    alert("Please select an asset.");
+    return;
+  }
 
-const exitPrice=
-parseFloat(document.getElementById("exitPrice").value);
+  if(!session){
+    alert("Please select a session.");
+    return;
+  }
 
-const direction=
-document.getElementById("direction").value;
+  if(!direction){
+    alert("Please select Long or Short.");
+    return;
+  }
 
-const isBE=
-document.getElementById("isBE").checked;
+  const trade = {
 
-const poiArrays=
-getSelectedPoiChips("poiMainGroup");
+    id: editingId || Date.now(),
 
-const selectedGrade=
-document.getElementById("setupGrade").value;
+    date: $("date").value,
+    time: $("time").value,
 
-const partials=
-getPartialsData("partialsContainer");
+    asset: $("asset").value,
+    timeframe: $("timeframe").value,
 
-const {
-plannedRR,
-realizedRR,
-result
-}=
-computeTradeMetrics(
-entry,
-sl,
-tp,
-exitPrice,
-direction,
-isBE,
-partials
-);
+    session: session.value,
+    direction: direction.value,
 
-if(!plannedRR){
+    setup: $("setup").value,
+    bias: $("bias").value,
 
-alert(
-"Please fill valid Entry, SL, and TP prices."
-);
+    entry: $("entry").value,
+    sl: $("sl").value,
+    tp: $("tp").value,
+    rr: $("rr").value,
 
-return;
+    result: $("result").value,
+    rResult: $("rResult").value,
 
+    notes: $("notes").value,
+
+    image: currentImage
+
+  };
+
+  if(editingId){
+
+    const index = trades.findIndex(t => t.id === editingId);
+
+    if(index !== -1){
+      trades[index] = trade;
+    }
+
+    editingId = null;
+    $("saveBtn").textContent = "SAVE TRADE";
+
+  }else{
+
+    trades.unshift(trade);
+
+  }
+
+  localStorage.setItem("tradeJournalV1", JSON.stringify(trades));
+
+  resetForm();
+
+  updateMetrics();
+
+  alert("Trade saved successfully.");
 }
 
+/* RESET */
 
-const trade={
+function resetForm(){
 
-id:Date.now(),
+  editingId = null;
+  currentImage = "";
 
-datetime:
-document.getElementById("datetime").value,
+  $("saveBtn").textContent = "SAVE TRADE";
 
-symbol:
-document.getElementById("symbol")
-.value.trim()||"EURUSD",
+  setCurrentDateTime();
 
-direction,
+  $("asset").value = "";
+  $("timeframe").value = "";
+  $("setup").value = "";
+  $("bias").value = "";
+  $("entry").value = "";
+  $("sl").value = "";
+  $("tp").value = "";
+  $("rr").value = "";
+  $("result").value = "";
+  $("rResult").value = "";
+  $("notes").value = "";
 
-entry,
-sl,
-tp,
+  document.querySelectorAll('input[name="session"]').forEach(x=>x.checked=false);
+  document.querySelectorAll('input[name="direction"]').forEach(x=>x.checked=false);
 
-exitPrice:
-Number.isFinite(exitPrice)
-?exitPrice
-:null,
-
-isBE,
-
-poiArrays,
-
-partials,
-
-rr:plannedRR,
-
-realizedRR,
-
-result,
-
-grade:
-selectedGrade!=="—"
-?selectedGrade
-:null,
-
-gradeChecklist:
-GRADE_CONFIG[selectedGrade]
-?GRADE_CONFIG[selectedGrade].checklist
-:[],
-
-bias:
-document.getElementById("bias").value,
-
-session:
-document.getElementById("session").value,
-
-targetLevel:
-document.getElementById("targetLevel")
-.value.trim(),
-
-mistakes:
-getSelectedCheckboxes("mistakesGroup"),
-
-images:
-[...currentImages],
-
-notes:
-document.getElementById("notes")
-.value.trim()
-
-};
-
-
-trades.push(trade);
-
-localStorage.setItem(
-"LOWKEY_JOURNAL_TRADES",
-JSON.stringify(trades)
-);
-
-clearInputs();
-
-alert("Setup logged successfully.");
-
+  $("image").value = "";
+  $("previewImage").style.display = "none";
+  $("previewImage").src = "";
 }
 
+/* EDIT */
 
-/* CLEAR */
+function editTrade(id){
 
-function clearInputs(){
+  const t = trades.find(x=>x.id === id);
 
-document.getElementById("notes").value="";
-document.getElementById("targetLevel").value="";
-document.getElementById("exitPrice").value="";
-document.getElementById("exitPrice").disabled=false;
+  if(!t)return;
 
-document.getElementById("isBE").checked=false;
+  editingId = id;
 
-setSelectedPoiChips(
-"poiMainGroup",
-[]
-);
+  $("date").value = t.date || "";
+  $("time").value = t.time || "";
 
-document.getElementById("setupGrade")
-.value="—";
+  $("asset").value = t.asset || "";
+  $("timeframe").value = t.timeframe || "";
 
-document.getElementById("partialsContainer")
-.innerHTML="";
+  $("setup").value = t.setup || "";
+  $("bias").value = t.bias || "";
 
-handleGradeSelection(
-"—",
-"gradePopoutMain"
-);
+  $("entry").value = t.entry || "";
+  $("sl").value = t.sl || "";
+  $("tp").value = t.tp || "";
+  $("rr").value = t.rr || "";
 
-document.getElementById("imageUrl").value="";
+  $("result").value = t.result || "";
+  $("rResult").value = t.rResult || "";
 
-document.getElementById("previewContainer")
-.innerHTML="";
+  $("notes").value = t.notes || "";
 
-clearCheckboxes("mistakesGroup");
+  document.querySelectorAll('input[name="session"]').forEach(x=>{
+    x.checked = x.value === t.session;
+  });
 
-currentImages=[];
+  document.querySelectorAll('input[name="direction"]').forEach(x=>{
+    x.checked = x.value === t.direction;
+  });
 
-setAutomaticDateTime();
+  currentImage = t.image || "";
 
-autoCalculateMain();
+  if(currentImage){
 
+    $("previewImage").src = currentImage;
+    $("previewImage").style.display = "block";
+
+  }else{
+
+    $("previewImage").style.display = "none";
+
+  }
+
+  $("saveBtn").textContent = "UPDATE TRADE";
+
+  showPage("setup");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
+/* DELETE */
 
-/* FILTER */
+function deleteTrade(id){
 
-function handleTimeFilterChange(){
+  if(!confirm("Delete this trade?"))return;
 
-const preset=
-document.getElementById("timePreset").value;
+  trades = trades.filter(t=>t.id !== id);
 
-const customGrp=
-document.getElementById("customRangeGroup");
+  localStorage.setItem("tradeJournalV1",JSON.stringify(trades));
 
-const yearSelect=
-document.getElementById("filterYear");
-
-if(preset==="CUSTOM"){
-
-customGrp.style.display="flex";
-yearSelect.style.display="none";
-
-}else{
-
-customGrp.style.display="none";
-
-yearSelect.style.display=
-preset==="ALL"
-?"none"
-:"block";
-
+  updateMetrics();
+  renderJournal();
 }
 
-activeDateFilter=null;
+/* CLEAR EVERYTHING */
 
-renderJournal();
+function clearAllTrades(){
 
+  if(!trades.length)return;
+
+  if(!confirm("Delete ALL saved trades? This cannot be undone."))return;
+
+  trades = [];
+
+  localStorage.removeItem("tradeJournalV1");
+
+  updateMetrics();
+  renderJournal();
 }
 
+/* METRICS */
 
-function getFilteredTrades(){
+function updateMetrics(){
 
-const preset=
-document.getElementById("timePreset").value;
+  const total = trades.length;
 
-const selectedYear=
-parseInt(
-document.getElementById("filterYear").value
-);
+  const wins = trades.filter(t=>t.result==="Win").length;
+  const losses = trades.filter(t=>t.result==="Loss").length;
 
-const now=new Date();
+  const rValues = trades
+    .map(t=>parseFloat(t.rResult))
+    .filter(x=>!isNaN(x));
 
-return trades.filter(t=>{
+  const netR = rValues.reduce((a,b)=>a+b,0);
 
-if(!t.datetime)return false;
+  const avgR = rValues.length ? netR/rValues.length : 0;
 
-const tDate=new Date(t.datetime);
+  const winRate = total ? (wins/total)*100 : 0;
 
-const tYear=tDate.getFullYear();
-const tMonth=tDate.getMonth();
+  const grossProfit = trades
+    .filter(t=>parseFloat(t.rResult)>0)
+    .reduce((a,t)=>a+parseFloat(t.rResult),0);
 
-if(activeDateFilter){
+  const grossLoss = Math.abs(
+    trades
+      .filter(t=>parseFloat(t.rResult)<0)
+      .reduce((a,t)=>a+parseFloat(t.rResult),0)
+  );
 
-return t.datetime.startsWith(
-activeDateFilter
-);
+  const pf = grossLoss ? grossProfit/grossLoss : 0;
 
+  let current=0;
+  let best=0;
+
+  trades.slice().reverse().forEach(t=>{
+
+    if(t.result==="Win"){
+      current++;
+      best=Math.max(best,current);
+    }else if(t.result==="Loss"){
+      current=0;
+    }
+
+  });
+
+  $("mTotal").textContent = total;
+  $("mWinRate").textContent = winRate.toFixed(1)+"%";
+  $("mNetR").textContent = formatR(netR);
+  $("mAvgR").textContent = formatR(avgR);
+  $("mWins").textContent = wins;
+  $("mLosses").textContent = losses;
+  $("mPF").textContent = pf.toFixed(2);
+  $("mStreak").textContent = best;
+
+  $("tradeCount").textContent =
+    total + (total===1 ? " TRADE" : " TRADES");
 }
 
-if(preset==="ALL")
-return true;
+function formatR(value){
 
-if(preset==="THIS_MONTH"){
+  if(!isFinite(value))return "0R";
 
-return(
-tYear===now.getFullYear()&&
-tMonth===now.getMonth()
-);
-
+  return (value>0?"+":"") + value.toFixed(2) + "R";
 }
-
-if(preset==="PREV_MONTH"){
-
-const prev=
-new Date(
-now.getFullYear(),
-now.getMonth()-1,
-1
-);
-
-return(
-tYear===prev.getFullYear()&&
-tMonth===prev.getMonth()
-);
-
-}
-
-if(preset==="Q1")
-return tYear===selectedYear&&(tMonth>=0&&tMonth<=2);
-
-if(preset==="Q2")
-return tYear===selectedYear&&(tMonth>=3&&tMonth<=5);
-
-if(preset==="Q3")
-return tYear===selectedYear&&(tMonth>=6&&tMonth<=8);
-
-if(preset==="Q4")
-return tYear===selectedYear&&(tMonth>=9&&tMonth<=11);
-
-if(preset==="CUSTOM"){
-
-const startVal=
-document.getElementById("startDate").value;
-
-const endVal=
-document.getElementById("endDate").value;
-
-if(!startVal&&!endVal)
-return true;
-
-const tTime=tDate.getTime();
-
-const start=
-startVal
-?new Date(
-startVal+"T00:00:00"
-).getTime()
-:0;
-
-const end=
-endVal
-?new Date(
-endVal+"T23:59:59"
-).getTime()
-:Infinity;
-
-return(
-tTime>=start&&
-tTime<=end
-);
-
-}
-
-return true;
-
-});
-
-}
-
 
 /* JOURNAL */
 
 function renderJournal(){
 
-const filtered=
-getFilteredTrades();
+  const list = $("journalList");
 
-renderMetrics(filtered);
-renderGradeCards(filtered);
-renderCalendar();
-renderFeed(filtered);
+  const assetFilter = $("filterAsset").value;
+  const resultFilter = $("filterResult").value;
 
+  let filtered = trades.filter(t=>{
+
+    const assetOK =
+      !assetFilter || t.asset===assetFilter;
+
+    const resultOK =
+      !resultFilter || t.result===resultFilter;
+
+    return assetOK && resultOK;
+
+  });
+
+  if(!filtered.length){
+
+    list.innerHTML =
+      '<div class="card empty">No trades found.</div>';
+
+    return;
+  }
+
+  list.innerHTML = filtered.map(t=>{
+
+    let resultClass = "";
+
+    if(t.result==="Win")resultClass="win";
+    if(t.result==="Loss")resultClass="loss";
+    if(t.result==="Breakeven")resultClass="breakeven";
+
+    const image = t.image
+      ? `<img src="${t.image}" style="width:100%;max-height:240px;object-fit:cover;border-radius:9px;margin-top:10px">`
+      : "";
+
+    return `
+
+      <div class="trade">
+
+        <div class="trade-top">
+
+          <div class="trade-symbol">
+            ${escapeHTML(t.asset || "—")}
+            <span style="color:#64748b">
+              ${t.direction==="Long" ? " ↑" : t.direction==="Short" ? " ↓" : ""}
+            </span>
+          </div>
+
+          <strong class="${resultClass}">
+            ${escapeHTML(t.result || "—")}
+            ${t.rResult ? " "+formatR(parseFloat(t.rResult)) : ""}
+          </strong>
+
+        </div>
+
+        <div class="trade-meta">
+
+          ${escapeHTML(t.date || "")}
+          ${t.time ? " • "+escapeHTML(t.time) : ""}
+
+          <br>
+
+          SESSION:
+          ${escapeHTML(t.session || "—")}
+
+          <br>
+
+          SETUP:
+          ${escapeHTML(t.setup || "—")}
+
+          • HTF:
+          ${escapeHTML(t.bias || "—")}
+
+          <br>
+
+          TF:
+          ${escapeHTML(t.timeframe || "—")}
+
+          • RR:
+          ${escapeHTML(t.rr || "—")}
+
+          <br>
+
+          ENTRY:
+          ${escapeHTML(t.entry || "—")}
+
+          • SL:
+          ${escapeHTML(t.sl || "—")}
+
+          • TP:
+          ${escapeHTML(t.tp || "—")}
+
+        </div>
+
+        ${
+          t.notes
+          ? `<div style="margin-top:9px;font-size:12px;color:#cbd5e1;line-height:1.5">
+              ${escapeHTML(t.notes)}
+             </div>`
+          : ""
+        }
+
+        ${image}
+
+        <div class="trade-actions">
+
+          <button onclick="editTrade(${t.id})">
+            EDIT
+          </button>
+
+          <button onclick="deleteTrade(${t.id})">
+            DELETE
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
 }
 
+/* CSV EXPORT */
 
-/* METRICS */
+function exportCSV(){
 
-function renderMetrics(filteredTrades){
+  if(!trades.length){
 
-const total=
-filteredTrades.length;
+    alert("There are no trades to export.");
 
-let totalWins=0;
-let totalLosses=0;
+    return;
+  }
 
-let netRR=0;
+  const headers = [
 
-let grossWinRR=0;
-let grossLossRR=0;
+    "Date",
+    "Time",
+    "Asset",
+    "Timeframe",
+    "Session",
+    "Direction",
+    "Setup",
+    "HTF Bias",
+    "Entry",
+    "Stop Loss",
+    "Take Profit",
+    "RR",
+    "Result",
+    "R Result",
+    "Notes"
 
-const sessionMap={};
-const uniqueDates=new Set();
+  ];
 
+  const rows = trades.map(t=>[
 
-filteredTrades.forEach(t=>{
+    t.date,
+    t.time,
+    t.asset,
+    t.timeframe,
+    t.session,
+    t.direction,
+    t.setup,
+    t.bias,
+    t.entry,
+    t.sl,
+    t.tp,
+    t.rr,
+    t.result,
+    t.rResult,
+    t.notes
 
-const rrVal=
-t.realizedRR??t.rr;
+  ]);
 
-if(t.result==="WIN"){
+  const csv = [
 
-totalWins++;
-grossWinRR+=rrVal;
-netRR+=rrVal;
+    headers,
 
-}else if(t.result==="LOSS"){
+    ...rows
 
-totalLosses++;
+  ].map(row=>
 
-const lossVal=
-Math.abs(rrVal);
+    row.map(value=>
 
-grossLossRR+=lossVal;
-netRR-=lossVal;
+      `"${String(value ?? "").replace(/"/g,'""')}"`
 
+    ).join(",")
+
+  ).join("\n");
+
+  const blob = new Blob(
+    [csv],
+    {type:"text/csv;charset=utf-8;"}
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download =
+    "trade-journal-" +
+    new Date().toISOString().slice(0,10) +
+    ".csv";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
 }
 
+/* SECURITY */
 
-if(t.datetime){
+function escapeHTML(value){
 
-const dt=new Date(t.datetime);
-
-const dateStr=
-dt.toISOString().split("T")[0];
-
-uniqueDates.add(dateStr);
-
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
+/* START */
 
-if(
-t.session&&
-t.session!=="—"
-){
-
-sessionMap[t.session]=
-(sessionMap[t.session]||0)+1;
-
-}
-
-});
-
-
-const winRate=
-totalWins+totalLosses>0
-?(
-(totalWins/
-(totalWins+totalLosses))*100
-).toFixed(1)
-:0;
-
-
-const profitFactor=
-grossLossRR>0
-?(grossWinRR/grossLossRR).toFixed(2)
-:grossWinRR.toFixed(2);
-
-
-const getTopKey=obj=>
-Object.keys(obj)
-.reduce(
-(a,b)=>obj[a]>obj[b]?a:b,
-"—"
-);
-
-
-document.getElementById("stTotal")
-.textContent=total;
-
-document.getElementById("stNetRR")
-.textContent=
-`${netRR>=0?"+":""}${netRR.toFixed(2)}R`;
-
-document.getElementById("stNetRR")
-.style.color=
-netRR>=0
-?"var(--green)"
-:"var(--red)";
-
-document.getElementById("stWinRate")
-.textContent=`${winRate}%`;
-
-document.getElementById("stProfitFactor")
-.textContent=profitFactor;
-
-document.getElementById("stDaysTraded")
-.textContent=uniqueDates.size;
-
-document.getElementById("stTopSession")
-.textContent=getTopKey(sessionMap);
-
-}
-
-
-/* GRADE CARDS */
-
-function renderGradeCards(filteredTrades){
-
-const grades=[
-"A","B","C","D","E"
-];
-
-grades.forEach(g=>{
-
-const gradeTrades=
-filteredTrades.filter(
-t=>t.grade===g
-);
-
-const count=
-gradeTrades.length;
-
-let wins=0;
-let losses=0;
-let netR=0;
-
-
-gradeTrades.forEach(t=>{
-
-const rr=
-t.realizedRR??t.rr;
-
-if(t.result==="WIN"){
-
-wins++;
-netR+=rr;
-
-}
-
-if(t.result==="LOSS"){
-
-losses++;
-netR-=Math.abs(rr);
-
-}
-
-});
-
-
-const wr=
-wins+losses>0
-?(
-(wins/(wins+losses))*100
-).toFixed(0)+"%"
-:"—";
-
-
-const winEl=
-document.getElementById(
-`gr${g}_win`
-);
-
-const subEl=
-document.getElementById(
-`gr${g}_sub`
-);
-
-
-winEl.textContent=wr;
-
-winEl.style.color=
-wins+losses>0&&
-parseFloat(wr)>=50
-?"var(--green)"
-:wins+losses>0
-?"var(--red)"
-:"var(--text-main)";
-
-
-subEl.textContent=
-`${count} trade${count===1?"":"s"} (${netR>=0?"+":""}${netR.toFixed(1)}R)`;
-
-});
-
-}
-
-
-/* CALENDAR */
-
-function changeMonth(delta){
-
-currentCalDate.setMonth(
-currentCalDate.getMonth()+delta
-);
-
-renderCalendar();
-
-}
-
-
-function onCalendarSelectChange(){
-
-const month=
-parseInt(
-document.getElementById(
-"calSelectMonth"
-).value
-);
-
-const year=
-parseInt(
-document.getElementById(
-"calSelectYear"
-).value
-);
-
-currentCalDate.setMonth(month);
-currentCalDate.setFullYear(year);
-
-renderCalendar();
-
-}
-
-
-function renderCalendar(){
-
-const year=
-currentCalDate.getFullYear();
-
-const month=
-currentCalDate.getMonth();
-
-document.getElementById(
-"calSelectMonth"
-).value=month;
-
-document.getElementById(
-"calSelectYear"
-).value=year;
-
-
-const firstDayIndex=
-new Date(
-year,
-month,
-1
-).getDay();
-
-const daysInMonth=
-new Date(
-year,
-month+1,
-0
-).getDate();
-
-
-const container=
-document.getElementById(
-"calendarDays"
-);
-
-container.innerHTML="";
-
-
-for(let i=0;i<firstDayIndex;i++){
-
-container.innerHTML+=
-`<div class="cal-day empty"></div>`;
-
-}
-
-
-for(
-let day=1;
-day<=daysInMonth;
-day++
-){
-
-const dateKey=
-`${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
-
-
-const dayTrades=
-trades.filter(
-t=>
-t.datetime&&
-t.datetime.startsWith(dateKey)
-);
-
-
-let dayRR=0;
-
-
-dayTrades.forEach(t=>{
-
-const rrVal=
-t.realizedRR??t.rr;
-
-if(t.result==="WIN")
-dayRR+=rrVal;
-
-if(t.result==="LOSS")
-dayRR-=Math.abs(rrVal);
-
-});
-
-
-let pnlClass="zero";
-
-if(dayRR>0)
-pnlClass="pos";
-
-if(dayRR<0)
-pnlClass="neg";
-
-
-const hasTrades=
-dayTrades.length>0;
-
-
-container.innerHTML+=`
-
-<div class="cal-day"
-onclick="filterByDate('${dateKey}')">
-
-<div class="cal-day-num">
-${day}
-</div>
-
-${hasTrades?`
-
-<div class="cal-day-info">
-
-<div class="cal-day-pnl ${pnlClass}">
-${dayRR>=0?"+":""}${dayRR.toFixed(1)}R
-</div>
-
-<div style="color:var(--text-muted);font-size:7px;">
-${dayTrades.length}
-trade${dayTrades.length>1?"s":""}
-</div>
-
-</div>
-
-`:""}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* DATE FILTER */
-
-function filterByDate(dateKey){
-
-activeDateFilter=dateKey;
-
+setCurrentDateTime();
+updateMetrics();
 renderJournal();
-
-}
-
-
-function resetFilter(){
-
-activeDateFilter=null;
-
-document.getElementById(
-"timePreset"
-).value="ALL";
-
-handleTimeFilterChange();
-
-}
-
-
-/* FEED */
-
-function renderFeed(filteredTrades){
-
-const list=
-document.getElementById(
-"journalList"
-);
-
-
-if(filteredTrades.length===0){
-
-list.innerHTML=`
-
-<div style="
-text-align:center;
-color:var(--text-muted);
-font-family:var(--font-mono);
-padding:40px;
-">
-
-${
-activeDateFilter
-?`No trade records logged on ${activeDateFilter}.`
-:"No trade records logged in this timeframe."
-}
-
-</div>
-`;
-
-return;
-
-}
-
-
-list.innerHTML=
-[...filteredTrades]
-.reverse()
-.map(t=>{
-
-const date=
-new Date(t.datetime)
-.toLocaleString();
-
-const imgs=t.images||[];
-
-const gradeLabel=
-t.grade
-?`<span class="grade-pill">Grade ${t.grade}</span>`
-:"";
-
-
-const poiTags=
-t.poiArrays&&
-t.poiArrays.length>0
-?t.poiArrays
-.map(p=>
-`<span class="poi-tag">${p}</span>`
-)
-.join("")
-:"";
-
-
-const checklistItems=
-t.gradeChecklist&&
-t.gradeChecklist.length>0
-?t.gradeChecklist
-.map(c=>`• ${c}`)
-.join(" | ")
-:"";
-
-
-const partialsText=
-t.partials&&
-t.partials.length>0
-?t.partials
-.map(p=>`${p.pct}% @ ${p.price}`)
-.join(", ")
-:"None";
-
-
-return `
-
-<div class="feed-card">
-
-<div class="feed-header">
-
-<span>
-${t.symbol} — ${t.direction}
-${gradeLabel}
-${poiTags}
-</span>
-
-<span class="badge badge-${t.result}">
-${t.result}
-</span>
-
-</div>
-
-
-<div class="feed-body">
-
-<b>Date:</b> ${date}
-|
-<b>Planned R:R:</b>
-1:${Number(t.rr).toFixed(2)}
-
-|
-<b>Realized R:R:</b>
-${(t.realizedRR||0)>=0?"+":""}${Number(t.realizedRR||0).toFixed(2)}R
-
-<br>
-
-<b>Entry:</b> ${t.entry}
-|
-<b>SL:</b> ${t.sl}
-|
-<b>TP:</b> ${t.tp}
-|
-<b>Final Exit:</b>
-${t.isBE?"BE":(t.exitPrice||"Open")}
-
-<br>
-
-<b>POI Arrays:</b>
-<span style="color:var(--purple);">
-${(t.poiArrays||[]).join(", ")||"None"}
-</span>
-
-<br>
-
-<b>Partials Taken:</b>
-<span style="color:var(--accent);">
-${partialsText}
-</span>
-
-<br>
-
-<b>Bias:</b> ${t.bias}
-|
-<b>Killzone / Session:</b>
-<span style="color:var(--text-main);">
-${t.session}
-</span>
-
-<br>
-
-${
-checklistItems
-?`
-<b>Setup Checklist:</b>
-<span style="color:var(--text-main);">
-${checklistItems}
-</span>
-<br>
-`
-:""
-}
-
-<b>DOL Target:</b>
-${t.targetLevel||"—"}
-
-<br>
-
-<b>Mistakes Made:</b>
-<span style="color:var(--red);">
-${(t.mistakes||[]).join(", ")||"None"}
-</span>
-
-${
-t.notes
-?`<br><i>Notes: ${t.notes}</i>`
-:""
-}
-
-</div>
-
-
-${
-imgs.length>0
-?`
-<div class="preview-row">
-
-${imgs.map(i=>
-`
-<a href="${i}" target="_blank">
-<img src="${i}">
-</a>
-`
-).join("")}
-
-</div>
-`
-:""
-}
-
-
-<div style="
-display:flex;
-gap:6px;
-margin-top:4px;
-width:100%;
-">
-
-<button
-class="btn btn-secondary"
-style="flex:1;"
-onclick="openEditModal(${t.id})">
-Edit Entry
-</button>
-
-<button
-class="btn btn-danger"
-style="flex:1;"
-onclick="deleteSingleTrade(${t.id})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-`;
-
-})
-.join("");
-
-}
-
-
-/* EDIT */
-
-function openEditModal(id){
-
-const t=
-trades.find(
-item=>item.id===id
-);
-
-if(!t)return;
-
-
-document.getElementById("editId")
-.value=t.id;
-
-document.getElementById("editDatetime")
-.value=t.datetime||"";
-
-document.getElementById("editEntry")
-.value=t.entry;
-
-document.getElementById("editSL")
-.value=t.sl;
-
-document.getElementById("editTP")
-.value=t.tp;
-
-document.getElementById("editExitPrice")
-.value=t.exitPrice||"";
-
-document.getElementById("editIsBE")
-.checked=t.isBE||false;
-
-
-setSelectedPoiChips(
-"poiEditGroup",
-t.poiArrays||[]
-);
-
-
-document.getElementById("editSession")
-.value=t.session||"—";
-
-document.getElementById("editSetupGrade")
-.value=t.grade||"—";
-
-handleGradeSelection(
-t.grade||"—",
-"gradePopoutModal"
-);
-
-
-document.getElementById("editTargetLevel")
-.value=t.targetLevel||"";
-
-document.getElementById("editNotes")
-.value=t.notes||"";
-
-document.getElementById("editExitPrice")
-.disabled=t.isBE||false;
-
-
-const editPartialsBox=
-document.getElementById(
-"editPartialsContainer"
-);
-
-editPartialsBox.innerHTML="";
-
-
-if(
-t.partials&&
-t.partials.length>0
-){
-
-t.partials.forEach(p=>
-addPartialRow(
-"editPartialsContainer",
-p.price,
-p.pct
-)
-);
-
-}
-
-
-calculateModalOutcome();
-
-document.getElementById(
-"editModal"
-).style.display="flex";
-
-}
-
-
-/* EDIT CALCULATOR */
-
-function calculateModalOutcome(){
-
-const id=
-parseInt(
-document.getElementById("editId").value
-);
-
-const t=
-trades.find(
-item=>item.id===id
-);
-
-const direction=
-t?t.direction:"BUY";
-
-
-const entry=
-parseFloat(
-document.getElementById("editEntry").value
-);
-
-const sl=
-parseFloat(
-document.getElementById("editSL").value
-);
-
-const tp=
-parseFloat(
-document.getElementById("editTP").value
-);
-
-const exitPrice=
-parseFloat(
-document.getElementById("editExitPrice").value
-);
-
-const isBE=
-document.getElementById("editIsBE").checked;
-
-const partials=
-getPartialsData(
-"editPartialsContainer"
-);
-
-
-const {
-plannedRR,
-realizedRR,
-result
-}=
-computeTradeMetrics(
-entry,
-sl,
-tp,
-exitPrice,
-direction,
-isBE,
-partials
-);
-
-
-document.getElementById(
-"editRRDisplay"
-).textContent=
-plannedRR
-?("1:"+plannedRR.toFixed(2))
-:"—";
-
-
-const statDisp=
-document.getElementById(
-"editStatusDisplay"
-);
-
-statDisp.textContent=
-`${result} (${realizedRR>=0?"+":""}${realizedRR.toFixed(2)}R)`;
-
-
-if(result==="WIN")
-statDisp.style.color="var(--green)";
-else if(result==="LOSS")
-statDisp.style.color="var(--red)";
-else if(result==="BE")
-statDisp.style.color="var(--amber)";
-else
-statDisp.style.color="var(--text-muted)";
-
-}
-
-
-/* SAVE EDIT */
-
-function saveEdit(){
-
-const id=
-parseInt(
-document.getElementById("editId").value
-);
-
-const index=
-trades.findIndex(
-t=>t.id===id
-);
-
-if(index===-1)return;
-
-
-const newDatetime=
-document.getElementById("editDatetime").value;
-
-const entry=
-parseFloat(
-document.getElementById("editEntry").value
-);
-
-const sl=
-parseFloat(
-document.getElementById("editSL").value
-);
-
-const tp=
-parseFloat(
-document.getElementById("editTP").value
-);
-
-const exitPrice=
-parseFloat(
-document.getElementById("editExitPrice").value
-);
-
-const isBE=
-document.getElementById("editIsBE").checked;
-
-const poiArrays=
-getSelectedPoiChips("poiEditGroup");
-
-const selectedGrade=
-document.getElementById("editSetupGrade").value;
-
-const partials=
-getPartialsData(
-"editPartialsContainer"
-);
-
-
-const {
-plannedRR,
-realizedRR,
-result
-}=
-computeTradeMetrics(
-entry,
-sl,
-tp,
-exitPrice,
-trades[index].direction,
-isBE,
-partials
-);
-
-
-if(newDatetime)
-trades[index].datetime=newDatetime;
-
-trades[index].entry=entry;
-trades[index].sl=sl;
-trades[index].tp=tp;
-
-trades[index].exitPrice=
-Number.isFinite(exitPrice)
-?exitPrice
-:null;
-
-trades[index].isBE=isBE;
-
-trades[index].poiArrays=
-poiArrays;
-
-trades[index].partials=
-partials;
-
-trades[index].grade=
-selectedGrade!=="—"
-?selectedGrade
-:null;
-
-trades[index].gradeChecklist=
-GRADE_CONFIG[selectedGrade]
-?GRADE_CONFIG[selectedGrade].checklist
-:[];
-
-trades[index].rr=
-plannedRR||0;
-
-trades[index].realizedRR=
-realizedRR;
-
-trades[index].result=
-result;
-
-trades[index].session=
-document.getElementById(
-"editSession"
-).value;
-
-trades[index].targetLevel=
-document.getElementById(
-"editTargetLevel"
-).value;
-
-trades[index].notes=
-document.getElementById(
-"editNotes"
-).value;
-
-
-localStorage.setItem(
-"LOWKEY_JOURNAL_TRADES",
-JSON.stringify(trades)
-);
-
-closeEditModal();
-
-renderJournal();
-
-}
-
-
-function closeEditModal(){
-
-document.getElementById(
-"editModal"
-).style.display="none";
-
-}
-
-
-/* DELETE */
-
-function deleteSingleTrade(id){
-
-if(!confirm("Delete this entry?"))
-return;
-
-trades=
-trades.filter(
-t=>t.id!==id
-);
-
-localStorage.setItem(
-"LOWKEY_JOURNAL_TRADES",
-JSON.stringify(trades)
-);
-
-renderJournal();
-
-}
-
-
-/* EXPORT */
-
-function openExportModal(){
-
-document.getElementById(
-"exportModal"
-).style.display="flex";
-
-}
-
-
-function closeExportModal(){
-
-document.getElementById(
-"exportModal"
-).style.display="none";
-
-}
-
-
-function toggleExportScopeInputs(){
-
-const scope=
-document.getElementById(
-"exportScope"
-).value;
-
-const monthYearGrp=
-document.getElementById(
-"exportMonthYearGroup"
-);
-
-monthYearGrp.style.display=
-scope==="MONTH"
-?"block"
-:"none";
-
-}
-
-
-function executeCSVExport(){
-
-const scope=
-document.getElementById(
-"exportScope"
-).value;
-
-let exportTrades=[];
-
-
-if(scope==="ALL"){
-
-exportTrades=[...trades];
-
-}else if(scope==="CURRENT_FILTER"){
-
-exportTrades=getFilteredTrades();
-
-}else if(scope==="MONTH"){
-
-const expMonth=
-parseInt(
-document.getElementById(
-"exportMonth"
-).value
-);
-
-const expYear=
-parseInt(
-document.getElementById(
-"exportYear"
-).value
-);
-
-
-exportTrades=
-trades.filter(t=>{
-
-if(!t.datetime)return false;
-
-const d=new Date(t.datetime);
-
-return(
-d.getFullYear()===expYear&&
-d.getMonth()===expMonth
-);
-
-});
-
-}
-
-
-if(exportTrades.length===0){
-
-alert(
-"No trade records found for selected export period."
-);
-
-return;
-
-}
-
-
-/* Psychology removed from CSV */
-
-const columns=[
-
-"datetime",
-"symbol",
-"direction",
-"entry",
-"sl",
-"tp",
-"exitPrice",
-"poiArrays",
-"rr",
-"realizedRR",
-"result",
-"grade",
-"bias",
-"session",
-"targetLevel",
-"mistakes",
-"notes"
-
-];
-
-
-let csv=
-columns.join(",")+"\n";
-
-
-exportTrades.forEach(t=>{
-
-const row=
-columns.map(col=>{
-
-let val=t[col]??"";
-
-if(Array.isArray(val))
-val=val.join(" | ");
-
-return '"'+
-String(val)
-.replace(/"/g,'""')+
-'"';
-
-});
-
-csv+=row.join(",")+"\n";
-
-});
-
-
-const blob=
-new Blob(
-["\ufeff"+csv],
-{
-type:"text/csv;charset=utf-8;"
-}
-);
-
-
-const link=
-document.createElement("a");
-
-link.href=
-URL.createObjectURL(blob);
-
-link.download=
-`lowkey_journal_${scope.toLowerCase()}_export.csv`;
-
-link.click();
-
-closeExportModal();
-
-}
-
-
-/* CLEAR ALL */
-
-function deleteAllTrades(){
-
-if(confirm("Purge ALL saved trade entries?")){
-
-trades=[];
-
-localStorage.setItem(
-"LOWKEY_JOURNAL_TRADES",
-"[]"
-);
-
-renderJournal();
-
-}
-
-}
 
 </script>
 
 </body>
-  </html>
+            </html>
